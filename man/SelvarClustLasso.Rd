@@ -4,8 +4,8 @@
 Regularization for variable selection in model-based clustering
 }
 \description{
-These functions implement the variable selection in model-based clustering or
-discriminant analysis using a lasso ranking on the variables as described in Celeux et al (2014).
+These function implement the variable selection in model-based clustering 
+using a lasso ranking on the variables as described in Celeux et al (2014).
 The variable ranking step uses the penalized EM algorithm of Zhou et al (2009).
 }
 \usage{
@@ -15,7 +15,7 @@ SelvarClustLasso(data,
           rho, 
           hybrid.size = 3,  
           criterion = "BIC", 
-          models, 
+          models = mixmodGaussianModel(listModels = "Gaussian_pk_Lk_C"), 
           regModel = c("LI", "LB", "LC"), 
           indepModel = c("LI", "LB"))
 }
@@ -47,9 +47,9 @@ algorithms to select \eqn{S} and \eqn{W} sets.
   "ICL", c("BIC", "ICL"). Default is "BIC".}
 
 \item{models}{a  Rmixmod [\code{\linkS4class{Model}}] object
-  defining the list of models to run. For quantitative
-  data, the model "Gaussian_pk_Lk_C" is called (see
-  mixmodGaussianModel() in Rmixmod package to specify other models).}
+  defining the list of models to run. The model "Gaussian_pk_Lk_C" 
+  is called by default (see mixmodGaussianModel() in Rmixmod 
+  package to specify other models).}
 
 \item{regModel}{list of character defining the covariance matrix forms for
   the regression of \eqn{U} variables on the \eqn{R} set of variables  
@@ -69,7 +69,7 @@ algorithms to select \eqn{S} and \eqn{W} sets.
 \value{ for each criterion BIC or ICL
 \item{nbCluster}{the estimated number of clusters}
 \item{proba }{matrix containing the conditional probabilities of belonging to each cluster for all observations}
-\item{partition}{vector of length \emph{n} containing the cluster assignments of the \emph{n} observations according to the MAP}
+\item{partition}{vector of length \emph{n} containing the cluster assignments of the \emph{n} observations according to the Maximum-a-Posteriori principle}
 \item{model }{The selected covariance model} %% the selected gaussian mixture form
 \item{S }{The set of clustering relevant variables}
 \item{R }{The subset of regressors}

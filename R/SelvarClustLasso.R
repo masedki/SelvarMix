@@ -8,58 +8,74 @@ SelvarClustLasso <-
            rho,
            hybrid.size = 3,  
            criterion = "BIC",
-           models,
+           models = mixmodGaussianModel(listModels = "Gaussian_pk_Lk_C"),
            regModel = c("LI", "LB", "LC"),
            indepModel = c("LI", "LB"))
   {
     
-    ## tests sur les arguments de la fonction 
-    ## pour data
-    if(is.matrix(data) == FALSE & is.data.frame(data) == FALSE) 
+    # check data parameter
+    if(missing(data)){
+      stop("data is missing !")
+    } 
+    if(is.matrix(data) == FALSE & is.data.frame(data) == FALSE){ 
       stop(paste(sQuote("data"), "must be a matrix"))
+    }
     
     
-    ## pour nbCluster
-    if(is.integer(as.integer(nbCluster))== FALSE) 
-      stop(paste(sQuote("nbCluster"), "must be an integer"))
+    # check nbCluster parameter
+    if(missing(nbCluster)){
+      stop("nbCluster is missing!")
+    }
+    if(sum(!is.wholenumber(nbCluster))){
+      stop("nbCluster must contain only integer!")
+    }
+    if(sum(nbCluster < 1)){ 
+      stop(paste(sQuote("nbCluster"), "must be an integer greater than 0!"))
+    }
     
-    
-    ## pour lambda
-    if(is.vector(lambda) == FALSE | length(lambda) <= 1) 
+    # check lambda parameter
+    if(missing(lambda)){
+      stop("lambda is missing !")
+    } 
+    if(is.vector(lambda) == FALSE | length(lambda) <= 1){ 
       stop(paste(sQuote("lambda"), "must be a vector with length >= 2"))
+    }
+    if (sum(lambda<=0)){
+      stop("lambda must greater than 0!")
+    }
     
     
-    ## pour rho
-    if(is.vector(rho) == FALSE) 
+    # check rho parameter
+    if(missing(rho)){
+      stop("rho is missing !")
+    } 
+    if(is.vector(rho) == FALSE){ 
       stop(paste(sQuote("rho"), "must be a vector"))
+    }
+    if(sum(rho<=0)){
+      stop("rho must greater than 0!")
+    }
     
     
-    ## pour hybrid.size
-    if(round(hybrid.size) != hybrid.size | hybrid.size > ncol(data)) 
-      stop(paste(sQuote("hybrid.size"), "must be an integer <= ncol(data)"))
+    # check hybrid.size parameter
+    if(!is.wholenumber(hybrid.size) | sum(hybrid.size < 1) | hybrid.size > ncol(data)) 
+      stop(paste(sQuote("hybrid.size"), "must be a positive integer <= ncol(data)"))
+    
+     # check criterion parameter
+    if( sum(criterion %in% c("BIC","ICL")) != length(criterion) ){
+      stop(cat(criterion[which(!(criterion %in% c("BIC","ICL")))], "is not a valid criterion name !\n"))
+    }
     
     
+    # check regModel
+    if( sum(regModel %in% c("LI","LB","LC")) != length(regModel) ){
+      stop(cat(regModel[which(!(regModel %in% c("LI","LB","LC")))], "is not a valid regModel name !\n"))
+    }
     
-    ## pour criterion 
-    if(length(criterion)==1)
-      if(criterion != "BIC" & criterion != "ICL")
-        stop(paste(sQuote("criterion"), "must be one of", dQuote("BIC"), "or", dQuote("ICL"), "or", dQuote("c(BIC, ICL)")))
-    
-    if(length(criterion)==2  & ((criterion[1]!="BIC" | criterion[2]!="ICL" ) & (criterion[1]!="ICL" | criterion[2]!="BIC")))
-      stop(paste(sQuote("criterion"), "must be one of", dQuote("BIC"), "or", dQuote("ICL"), "or", dQuote("c(BIC, ICL)")))
-    
-    
-    
-    
-    ## pour modelReg
-    for(m in 1:length(regModel))
-      if(regModel[m]!= "LI" & regModel[m]!="LB" & regModel[m]!="LC")
-        stop(paste(sQuote("regModel"), "must be one or more of", dQuote("LI"), "or", dQuote("LB"), "or", dQuote("LC")))
-    
-    ## pour modelIndep
-    for(m in 1:length(indepModel))
-      if(indepModel[m]!= "LI" & indepModel[m]!="LB")
-        stop(paste(sQuote("indepModel"), "must be one or more of", dQuote("LI"), "or", dQuote("LB")))
+    # check indepModel
+    if ( sum(indepModel %in% c("LI","LB")) != length(indepModel) ){
+      stop(cat(indepModel[which(!(indepModel %in% c("LI","LB")))], "is not a valid indepModel name !\n"))
+    }
     
     
     data <- as.matrix(data)
@@ -68,9 +84,9 @@ SelvarClustLasso <-
     nbCluster <- as.integer(nbCluster)
     OrderVariable <- matrix(NA, nrow = length(nbCluster), ncol = p) 
     dataStand <- scale(data, TRUE, TRUE)
-    print("............... start  variables  ranking .................................... ")
+    print("............... start  variable  ranking .................................... ")
     OrderVariable <- SortVariablesLasso(dataStand,nbCluster,lambda,rho)
-    print("................. variables ranking .... done ................................ ")
+    print("................. variable ranking .... done ................................ ")
     supervised <- FALSE ## c'est une initialisation qui ne sert qu'à créer l'objet CritClust en c++
     knownlabels <- as.integer(1:n) ## une initilialisation qui ne sert qu'à créer l'objet CritClust en c++  (une autre solution à trouver !!!)
     bestModel <- list()

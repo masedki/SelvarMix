@@ -8,73 +8,88 @@ SelvarLearnLasso <-
            rho,
            pack.size = 3,  
            criterion = "BIC",
-           models,
+           models = mixmodGaussianModel(listModels = "Gaussian_pk_Lk_C"),
            modelReg = c("LI", "LB", "LC"),
            modelIndep = c("LI", "LB"),
            knownlabels)
   {
     
-    ## tests sur les arguments de la fonction 
-    ## pour data
+    # check data parameter
+    if(missing(data)){
+      stop("data is missing !")
+    } 
     if(is.matrix(data) == FALSE & is.data.frame(data) == FALSE) 
       stop(paste(sQuote("data"), "must be a matrix"))
     
     
-    ## pour nbCluster
-    if(is.integer(as.integer(nbCluster))== FALSE) 
-      stop(paste(sQuote("nbCluster"), "must be an integer"))
-    
-    
-    ## pour lambda
-    if(is.vector(lambda) == FALSE | length(lambda) <= 1) 
+    # check nbCluster parameter
+    if(missing(nbCluster)){
+      stop("nbCluster is missing!")
+    }
+    if(sum(!is.wholenumber(nbCluster))){
+      stop("nbCluster must contain only integer!")
+    }
+    if(sum(nbCluster < 1)){ 
+      stop(paste(sQuote("nbCluster"), "must be an integer greater than 0!"))
+    }
+     
+    # check lambda parameter
+    if(missing(lambda)){
+      stop("lambda is missing!")
+    }
+    if(is.vector(lambda) == FALSE | length(lambda) <= 1){ 
       stop(paste(sQuote("lambda"), "must be a vector with length >= 2"))
+    }
+    if (sum(lambda<=0)){
+      stop("lambda must greater than 0!")
+    }
     
     
-    ## pour rho
-    if(is.vector(rho) == FALSE) 
+    
+    # check rho parameter
+    if(missing(rho)){
+      stop("rho is missing!")
+    }
+    if(is.vector(rho) == FALSE){ 
       stop(paste(sQuote("rho"), "must be a vector"))
+    }
+    if(sum(rho<=0)){
+      stop("rho must greater than 0!")
+    }
+     
     
+    # check hybrid.size
+    if(!is.wholenumber(hybrid.size) | sum(hybrid.size < 1) | hybrid.size > ncol(data)) 
+      stop(paste(sQuote("hybrid.size"), "must be a positive integer <= ncol(data)"))
     
-    ## pour pack.size
-    if(round(pack.size) != pack.size | pack.size > ncol(data)) 
-      stop(paste(sQuote("pack.size"), "must be an integer <= ncol(data)"))
+    # check criterion parameter
+    if( sum(criterion %in% c("BIC")) != length(criterion) ){
+      stop(cat(criterion[which(!(criterion %in% c("ICL")))], "is not a valid criterion name !\n"))
+    }
     
+    # check regModel
+    if( sum(regModel %in% c("LI","LB","LC")) != length(regModel) ){
+      stop(cat(regModel[which(!(regModel %in% c("LI","LB","LC")))], "is not a valid regModel name !\n"))
+    }
     
-    ## knownlabels
-    if(is.vector(knownlabels) == FALSE | length(knownlabels) != nrow(data))
-      stop(paste(sQuote("knownlabels"), "must be a vector the same length as the number of rows in", sQuote("data")))
+    # check indepModel
+    if ( sum(indepModel %in% c("LI","LB")) != length(indepModel) ){
+      stop(cat(indepModel[which(!(indepModel %in% c("LI","LB")))], "is not a valid indepModel name !\n"))
+    }
     
-    ## cohérence entre supervised, nbClust et knownlabels
-    if(is.integer(knownlabels)==FALSE | min(knownlabels) <= 0)
-      stop(paste(sQuote("knownlabels"), "must be a vector of integers from 1 to", sQuote("nbCluster")))
-    
-    
-    if(length(nbCluster) != 1 | nbCluster != max(knownlabels))
-    {
-      
-      if(length(nbCluster) != 1)
-        warning(paste(sQuote("nbCluster"), dQuote("length(nbCluster) must be one")))
-      if(nbCluster != max(knownlabels))
-        warning(paste(sQuote("nbCluster"), dQuote("nbCluster must be equal to max(knownlabels)")))
+    # check whether the knownLabels is missing
+    if ( length(knownlabels) == 0 ){
+      stop("labels are missing!")
+    }
+    # check the number of cluster
+    if (min(knownlabels) <= 0 | length(knownlabels) != nrow(data)){
+      stop("Each observation in knownLabels must have a valid cluster affectation !")
+    }
+    # check the number of cluster
+    if (length(nbCluster) != 1 | max(knownlabels)!= nbCluster ){
+      warning("length of nbCluster must be 1 and equal to max(knownLabels)!")
       nbCluster <- max(knownlabels)
-    }   
-    
-    
-    ## pour criterion 
-    if(criterion != "BIC")
-      stop(paste(sQuote("criterion"), "must be only ", dQuote("BIC")))
-    
-    
-    ## pour modelReg
-    for(m in 1:length(modelReg))
-      if(modelReg[m]!= "LI" & modelReg[m]!="LB" & modelReg[m]!="LC")
-        stop(paste(sQuote("modelReg"), "must be one or more of", dQuote("LI"), "or", dQuote("LB"), "or", dQuote("LC")))
-    
-    ## pour modelIndep
-    for(m in 1:length(modelIndep))
-      if(modelIndep[m]!= "LI" & modelIndep[m]!="LB")
-        stop(paste(sQuote("modelIndep"), "must be one or more of", dQuote("LI"), "or", dQuote("LB")))
-    
+    }
     
     ## on est supervisé donc on initialiser supervised à TRUE.
     supervised <- TRUE

@@ -4,7 +4,7 @@
 Regularization for variable selection in discriminant analysis 
 }
 \description{
-These functions implement the variable selection in discriminant 
+These function implement the variable selection in discriminant 
 analysis using a lasso ranking on the variables as described in Celeux et al (2014).
 The variable ranking step uses the penalized EM algorithm of Zhou et al (2009) (supervised case).
 }
@@ -15,7 +15,7 @@ SelvarLearnLasso(data,
           rho, 
           hybrid.size = 3,  
           criterion = "BIC", 
-          models, 
+          models = mixmodGaussianModel(listModels = "Gaussian_pk_Lk_C"), 
           regModel = c("LI", "LB", "LC"), 
           indepModel = c("LI", "LB"),
           knownlabels)

@@ -2,7 +2,7 @@
 \alias{SortVariablesLasso}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Variables ranking with LASSO in model-based clustering 
+Variable ranking with LASSO in model-based clustering 
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
