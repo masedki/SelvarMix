@@ -22,7 +22,7 @@ ClusteringEMGlasso <- function(data,
   if(length(nbCluster) == 1)
   {
     junk <- InitParameter(data, nbCluster, n.start = 250, small.pen = 0.5)
-    print("ClusteringEMGlasso ....... Initialization ....... Done ")
+    ##print("ClusteringEMGlasso ....... Initialization ....... Done ")
     
   }
     else{  
@@ -32,7 +32,7 @@ ClusteringEMGlasso <- function(data,
     clusterExport(cl=cl, varlist = common.objects, envir = environment())
     
     junk <- clusterApply(cl, x = as.integer(nbCluster), fun = wrapper.init.parameter)
-    print("ClusteringEMGlasso ....... Initialization ....... Done ")
+    ##print("ClusteringEMGlasso ....... Initialization ....... Done ")
     
   }
   
