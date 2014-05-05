@@ -17,7 +17,7 @@ SelvarClustLasso <-
     if(missing(data)){
       stop("data is missing!")
     } 
-    if(is.matrix(data) == FALSE & is.data.frame(data) == FALSE){ 
+    if(is.matrix(data) == FALSE && is.data.frame(data) == FALSE){ 
       stop(paste(sQuote("data"), "must be a matrix!"))
     }
     

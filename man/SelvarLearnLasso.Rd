@@ -92,22 +92,26 @@ Mohammed Sedki <\url{mohammed.sedki@u-psud.fr}>
 à venir le papier
 }
 \examples{
-## Simulated data  example as shown in Celeux et al. (2014) (independent scenario 4) 
-## n = 300 observations, p = 25
 
-data(scenarioIndep)
-lambda <- seq(1, 20, length = 50)
-rho <- c(1, 5)
-hybrid.size <- 5
-nbCluster <- 3 
-criterion <- c("BIC","ICL")
+## Simulated data  example as shown in Celeux et al. (2014) (correlated scenario 2) 
+## n = 2000 observations, p = 14
+
+data(scenarioCor)
+
+lambda <- seq(0.1,  100, length = 50)
+rho <- seq(1, 2, length=2)
+hybrid.size <- 3
+nbCluster <-  4
+criterion <- "BIC"
 models <- mixmodGaussianModel(family = "spherical", equal.proportions = TRUE)
-regModel <- c("LI","LB", "LC")
+regModel <- c("LI","LB","LC")
 indepModel <- c("LI","LB")
 
-## discriminant analysis
-criterion <- "BIC"
-simulate.2 <- SelvarLearnLasso(data, nbCluster, lambda, rho, hybrid.size, criterion, models, regModel, indepModel, label)
+##supervised clustering (discriminant analysis)
+data.cor <- scenarioCor[,1:14]
+labels.cor <-scenarioCor[,15]
+simulate.learn <- SelvarLearnLasso(data.cor, nbCluster, lambda, rho, hybrid.size, criterion, models, regModel, indepModel, labels.cor)
 
- 
+
+
 }

@@ -52,23 +52,24 @@ Mohammed Sedki <mohammed.sedki@u-psud.fr>
 }
 
 \examples{
+## Simulated data  example as shown in Celeux et al. (2014) (correlated scenario 2) 
+## n = 2000 observations, p = 14
 
-## Simulated data  example as shown in Celeux et al. (2014) (independent scenario 4) 
-## n = 300 observations, p = 25
+data(scenarioCor)
+data.cor <- scenarioCor[,1:14]
+labels.cor <-scenarioCor[,15]
 
-data(scenarioIndep)
-lambda <- seq(1, 20, length = 50)
-rho <- c(1, 5)
-pack.size <- 5
-nbCluster <- 3
+lambda <- seq(0.1,  100, length = 50)
+rho <- seq(1, 2, length=2)
+nbCluster <-  4
 
 ## unsupervised clustering  
-var.ranking.1 <- SortVariablesLasso(data, nbCluster, lambda, rho)
+var.ranking.clust <- SortVariablesLasso(data.cor, nbCluster, lambda, rho)
 
  
 ## discriminant analysis
-var.ranking.2 <- SortVariablesLasso(data, nbCluster, lambda, rho, supervised = TRUE, label)
+var.ranking.learn <- SortVariablesLasso(data.cor, nbCluster, lambda, rho, supervised = TRUE, labels.cor)
 
 }
-\keyword{Variables raking}
+\keyword{Variable ranking}
 

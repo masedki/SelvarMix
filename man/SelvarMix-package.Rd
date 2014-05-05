@@ -46,26 +46,31 @@
 }
 \examples{
 \dontrun{
- ## Simulated data  example as shown in Celeux et al. (2014) (independent scenario 4) 
-## n = 300 observations, p = 25
+## Simulated data  example as shown in Celeux et al. (2014) (correlated scenario 2) 
+## n = 2000 observations, p = 14
 
-data(scenarioIndep)
-lambda <- seq(1, 20, length = 50)
-rho <- c(1, 5)
-pack.size <- 5
-nbCluster <- 3
-criterion <- c("BIC","ICL")
+data(scenarioCor)
+
+lambda <- seq(0.1,  100, length = 50)
+rho <- seq(1, 2, length=2)
+hybrid.size <- 3
+nbCluster <-  c(3,4)
+criterion <- "BIC"
 models <- mixmodGaussianModel(family = "spherical", equal.proportions = TRUE)
-modelReg <- c("LI","LB", "LC")
-modelIndep <- c("LI","LB")
+regModel <- c("LI","LB","LC")
+indepModel <- c("LI","LB")
 
 ## unsupervised clustering  
-simulate.1 <- SelvarMix(data, nbCluster, lambda, rho, pack.size, criterion, models, modelReg, modelIndep)
- 
-## discriminant analysis
-criterion <- "BIC"
-simulate.2 <- SelvarMix(data, nbCluster, lambda, rho, pack.size, criterion, models, modelReg, modelIndep, supervised = TRUE, label)
-  }
+data.cor <- scenarioCor[,1:14]
+simulate.clust  <- SelvarClustLasso(data.cor, nbCluster, lambda, rho, hybrid.size, criterion, models, regModel, indepModel)
+
+
+## supervised clustering (discriminant analysis)
+labels.cor <-scenarioCor[,15]
+nbCluster <- 4
+simulate.learn <- SelvarLearnLasso(data.cor, nbCluster, lambda, rho, hybrid.size, criterion, models, regModel, indepModel, labels.cor)
+
+}
 }
 \author{
   Author: Mohammed Sedki and Cathy Maugis-Rabusseau, 

@@ -11,37 +11,41 @@
   \item{\code{scenarioCor[,15]}}{an integer vector containing the labels}
 
 }}
-\source{
-  \url{http://www.geyserstudy.org/geyser.aspx?pGeyserNo=OLDFAITHFUL}
-}
+%\source{
+%  \url{}
+%}
 \description{
-  The file geyser.rda contains 272 observations from the
-  Old Faithful Geyser in the Yellowstone National Park.
-  Each observation consists of two measurements : the
-  duration (in minutes) of the eruption and the waiting
-  time (in minutes) to the next eruption.
+ The dataset consists of 2000 data points in \eqn{R^{14}}. The subset of relevant 
+ clustering variables is \eqn{S = \{1, 2\}}, data are distributed from a mixture of four equiprobable Gaussian distributions with means \eqn{(0,0), (4,0)
+ (0,2)} and \eqn{(4,2)} with identity covariance.  The subset of redundant variables is \eqn{U =\{3--11\}}. The last three variables are independent 
+ \eqn{W = \{11, 12, 13\}}.
+ 
 }
 \details{
-  Old Faithful erupts more frequently than any other big
-  geyser, although it is not the largest nor the most
-  regular geyser in the park. Its average interval between
-  two eruptions is about 76 minutes, varying from 45 - 110
-  minutes. An eruption lasts from 1.1/2 to 5 minutes,
-  expels 3,700 - 8,400 gallons (14,000 - 32,000 liters) of
-  boiling water, and reaches heights of 106 - 184 feet (30
-  - 55m). It was named for its consistent performance by
-  members of the Washburn Expedition in 1870. Old Faithful
-  is still as spectacular and predictable as it was a
-  century ago.
+The subset \eqn{U} of redundant variables is simulated as follows :
+
+ \eqn{x^{U} =  (0,0, 0.4, 0.8, ..., 2) + x^{S} b + \epsilon, with \epsilon ~ N(0_9, \Omega)}
+ 
+The subset \eqn{W} of independent variables is simulated as follows :
+
+\eqn{x^{W} ~ N((3.2, 3.6, 4), I_3)}
+
+For more details on the regression coefficients \eqn{b} and the covariance
+matrix \eqn{\Omega} see Celeux et al.(2014) (section 3.2).
 }
 \examples{
-data(geyser)
+data(scenarioCor)
 }
 \references{
-  Hardle, W. (1991). "Smoothing Techniques with
-  Implementation in S". Springer-Verlag, New York.
-  Azzalini, A. and Bowman, A. W. (1990). "A look at some
-  data on the Old Faithful geyser". Applied Statistics 39,
-  357-365.
+ Maugis, C., Celeux, G., and Martin-Magniette, M. L., 2009. 
+  "Variable selection in model-based clustering: 
+  A general variable role modeling". Computational 
+  Statistics and Data Analysis, vol. 53/11, pp. 3872–3882.
+
+   Celeux, G., Martin-Magniette, M. L., Maugis, C., and Raftery, A. E., 2014. 
+  "Comparing Model Selection and Regularization Approaches to Variable
+   Selection in Model-Based Clustering". Journal de la Société Française
+   de Statistique, vol. 155/2, pp. 57–71.
+
 }
 \keyword{datasets}
