@@ -85,11 +85,11 @@ SelvarClustLasso <-
     OrderVariable <- matrix(NA, nrow = length(nbCluster), ncol = p) 
     dataStand <- scale(data, TRUE, TRUE)
     print("............... start  variable  ranking .................................... ")
-    OrderVariable <- SortVariablesLasso(dataStand,nbCluster,lambda,rho)
-    print("................. variable ranking .... done ................................ ")
     supervised <- FALSE ## c'est une initialisation qui ne sert qu'à créer l'objet CritClust en c++
     knownlabels <- as.integer(1:n) ## une initilialisation qui ne sert qu'à créer l'objet CritClust en c++  (une autre solution à trouver !!!)
-    bestModel <- list()
+    OrderVariable <- SortvarClust(dataStand, nbCluster, lambda, rho)
+    print("................. variable ranking .... done ................................ ")
+        bestModel <- list()
     if(length(criterion)==1)
     {
       print(c(" ...... SRUW selection with ", criterion, " criterion ...... "))

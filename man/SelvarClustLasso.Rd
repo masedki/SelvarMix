@@ -4,7 +4,7 @@
 Regularization for variable selection in model-based clustering
 }
 \description{
-These function implement the variable selection in model-based clustering 
+This function implements the variable selection in model-based clustering 
 using a lasso ranking on the variables as described in Celeux et al (2014).
 The variable ranking step uses the penalized EM algorithm of Zhou et al (2009).
 }
@@ -15,7 +15,7 @@ SelvarClustLasso(data,
           rho, 
           hybrid.size = 3,  
           criterion = "BIC", 
-          models = mixmodGaussianModel(listModels = "Gaussian_pk_Lk_C"), 
+          models, 
           regModel = c("LI", "LB", "LC"), 
           indepModel = c("LI", "LB"))
 }
@@ -28,7 +28,7 @@ SelvarClustLasso(data,
   columns correspond to variables.
 }
   \item{nbCluster}{
- numeric listing the number of clusters (must be integers).
+ numeric listing the number of clusters (must be positive integers).
 }
   \item{lambda}{
   numeric listing of means penalties.
@@ -37,7 +37,7 @@ SelvarClustLasso(data,
   numeric listing of precision matrix penalties.
 }
 \item{hybrid.size}{
-optionnal parameter make less strength  the hybrid forward and backward 
+optional parameter make less strength  the hybrid forward and backward 
 algorithms to select \eqn{S} and \eqn{W} sets.
 }
 

@@ -101,7 +101,7 @@ SelvarLearnLasso <-
     OrderVariable <- matrix(NA, nrow = length(nbCluster), ncol = p) 
     dataStand <- scale(data, TRUE, TRUE)
     print("............... start  variables  ranking .................................... ")
-    OrderVariable <- SortVariablesLasso(dataStand,nbCluster,lambda, rho, supervised, knownlabels = knownlabels)
+    OrderVariable <- SortvarLearn(dataStand, lambda, rho, knownlabels)
     print("................. variables ranking .... done ................................ ") 
     bestModel <- list()
     print(" ...... SRUW  selection with BIC criterion ...... ")

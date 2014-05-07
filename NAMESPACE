@@ -1,4 +1,4 @@
 useDynLib(SelvarMix)
 #exportPattern("^[[:alpha:]]+")
-export(SelvarClustLasso, SelvarLearnLasso, SortVariablesLasso)
+export(SelvarClustLasso, SelvarLearnLasso, SortvarClust, SortvarLearn)
 importFrom(Rcpp, evalCpp)
