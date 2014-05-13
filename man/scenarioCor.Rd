@@ -40,12 +40,12 @@ data(scenarioCor)
  Maugis, C., Celeux, G., and Martin-Magniette, M. L., 2009. 
   "Variable selection in model-based clustering: 
   A general variable role modeling". Computational 
-  Statistics and Data Analysis, vol. 53/11, pp. 3872–3882.
+  Statistics and Data Analysis, vol. 53/11, pp. 3872-3882.
 
    Celeux, G., Martin-Magniette, M. L., Maugis, C., and Raftery, A. E., 2014. 
   "Comparing Model Selection and Regularization Approaches to Variable
-   Selection in Model-Based Clustering". Journal de la Société Française
-   de Statistique, vol. 155/2, pp. 57–71.
+   Selection in Model-Based Clustering". Journal de la Soci\'et\'e Fran\,caise
+   de Statistique, vol. 155/2, pp. 57-71.
 
 }
 \keyword{datasets}

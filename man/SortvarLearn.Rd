@@ -38,7 +38,7 @@ SortvarLearn(data, lambda, rho, knownlabels)
 \references{
   Zhou, H., Pan, W., and Shen, X., 2009. "Penalized model-based 
   clustering with unconstrained covariance matrices". 
-  Electronic Journal of Statistics, vol. 3, pp.1473–1496.
+  Electronic Journal of Statistics, vol. 3, pp.1473-1496.
 }
 \author{
 Mohammed Sedki \email{mohammed.sedki@u-psud.fr}

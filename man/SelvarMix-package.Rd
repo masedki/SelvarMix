@@ -1,7 +1,20 @@
 \docType{package}
 \name{SelvarMix-package}
 \alias{SelvarMix-package}
-\title{REGULARIZATION FOR VARIABLE SELECTION IN MODEL-BASED CLUSTERING}
+\title{REGULARIZATION FOR VARIABLE SELECTION IN MODEL-BASED CLUSTERING AND DISCRIMINANT ANALYSIS}
+\description{
+  SelvarMix is a package where a regularization approach 
+  of variable selection is considered in model-based 
+  clustering and discriminant analysis frameworks. 
+  First, this procedure consists of ranking the variables 
+  with a lasso-like procedure. Second, the method of
+  Maugis et al 2009. and Maugis et al 2011. 
+  is adapted to define the role of variables in the 
+  two frameworks. SelvarMix provides a faster variable 
+  selection algorithm than the backward stepwise or forward 
+  stepwise algorithms of Maugis et al 2009., allowing us 
+  to study high-dimensional datasets.
+}
 \details{
   \tabular{ll}{ Package: \tab SelvarMix\cr Type: \tab
   Package\cr Version: \tab 1.0\cr Date: \tab
@@ -81,11 +94,15 @@ simulate.learn <- SelvarLearnLasso(data.cor, nbCluster, lambda, rho, hybrid.size
   Maugis, C., Celeux, G., and Martin-Magniette, M. L., 2009. 
   "Variable selection in model-based clustering: 
   A general variable role modeling". Computational 
-  Statistics and Data Analysis, vol. 53/11, pp. 3872–3882.
+  Statistics and Data Analysis, vol. 53/11, pp. 3872-3882.
+
+  Maugis, C., Celeux, G., and Martin-Magniette, M. L., 2011. 
+  "Variable selection in model-based discriminant analysis". 
+  Journal of Multivariate Analysis, vol. 102, pp. 1374-1387.
 
   Zhou, H., Pan, W., and Shen, X., 2009. "Penalized model-based 
   clustering with unconstrained covariance matrices". 
-  Electronic Journal of Statistics, vol. 3, pp.1473–1496.
+  Electronic Journal of Statistics, vol. 3, pp.1473-1496.
 
 }
 \keyword{package}
