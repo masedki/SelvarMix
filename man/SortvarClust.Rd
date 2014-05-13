@@ -36,7 +36,7 @@ SortvarClust(data, nbCluster, lambda, rho)
 %%  ~~ If necessary, more details than the description above ~~
 %}
 \value{
-  matrix with rows corresponding to variables raking. Each 
+  matrix with rows corresponding to variable raking. Each 
   row corresponds to a value in nbCluster.
 }
 \references{
@@ -54,7 +54,7 @@ Mohammed Sedki <mohammed.sedki@u-psud.fr>
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\link[pkg:SelvarMix]{SortvarLearn}
+\link{SortvarLearn}
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
@@ -69,9 +69,9 @@ lambda <- seq(0.1,  100, length = 50)
 rho <- seq(1, 2, length=2)
 nbCluster <-  4
 
-## unsupervised clustering  
+## variable ranking in model-based clustering  
 var.ranking.clust <- SortvarClust(data.cor, nbCluster, lambda, rho)
-
+}
 \keyword{Variable ranking}
 \keyword{Penalized model-based clustering}
 

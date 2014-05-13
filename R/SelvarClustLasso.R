@@ -6,11 +6,11 @@ SelvarClustLasso <-
            nbCluster, 
            lambda, 
            rho,
-           hybrid.size = 3,  
-           criterion = "BIC",
-           models = mixmodGaussianModel(listModels = "Gaussian_pk_Lk_C"),
-           regModel = c("LI", "LB", "LC"),
-           indepModel = c("LI", "LB"))
+           hybrid.size, 
+           criterion, 
+           models,
+           regModel,
+           indepModel)
   {
     
     # check data parameter
@@ -58,21 +58,36 @@ SelvarClustLasso <-
     
     
     # check hybrid.size parameter
+    if(missing(hybrid.size)){
+      hybrid.size <- 3
+    }
     if(!is.wholenumber(hybrid.size) | sum(hybrid.size < 1) | hybrid.size > ncol(data)) 
       stop(paste(sQuote("hybrid.size"), "must be a positive integer <= ncol(data)!"))
     
     # check criterion parameter
+    if(missing(criterion)){
+     criterion <- "BIC"  
+    }
     if( sum(criterion %in% c("BIC","ICL")) != length(criterion) ){
       stop(cat(criterion[which(!(criterion %in% c("BIC","ICL")))], "is not a valid criterion name !\n"))
     }
     
-    
+    # check models 
+    if(missing(models)){
+    models <- mixmodGaussianModel(family="general", free.proportions=TRUE)  
+    }
     # check regModel
+    if(missing(regModel)){
+      regModel <- c("LI", "LB", "LC")
+    }
     if( sum(regModel %in% c("LI","LB","LC")) != length(regModel) ){
       stop(cat(regModel[which(!(regModel %in% c("LI","LB","LC")))], "is not a valid regModel name !\n"))
     }
     
     # check indepModel
+    if(missing(indepModel)){
+      indepModel <- c("LI", "LB")
+    }
     if ( sum(indepModel %in% c("LI","LB")) != length(indepModel) ){
       stop(cat(indepModel[which(!(indepModel %in% c("LI","LB")))], "is not a valid indepModel name !\n"))
     }

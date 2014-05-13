@@ -22,10 +22,10 @@ ModelSelectionClust <- function(VariableSelectRes,
   mylist.size <- length(VariableSelectRes)
   
   if(mylist.size==1)
-    junk <- rcppCrit(data, 
-                     VariableSelecRes, 
+    junk <- try(rcppCrit(data, 
+                     VariableSelectRes, 
                      regModel, 
-                     indepModel)
+                     indepModel), silent = TRUE)
   else
   {
     wrapper.rcppCrit <- function(idx)
@@ -34,7 +34,7 @@ ModelSelectionClust <- function(VariableSelectRes,
       res <- try(rcppCrit(data, 
                           mylist,
                           regModel, 
-                          indepModel), silent)
+                          indepModel), silent = TRUE)
       return(res)
     }
     

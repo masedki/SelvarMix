@@ -8,20 +8,7 @@ SortvarLearn <- function(data,
     stop("data is missing !")
   } 
   if(is.matrix(data) == FALSE && is.data.frame(data) == FALSE) 
-    stop(paste(sQuote("data"), "must be a matrix"))
-  
-  
-  # check nbCluster parameter
-  if(missing(nbCluster)){
-    stop("nbCluster is missing!")
-  }
-  if(sum(!is.wholenumber(nbCluster))){
-    stop("nbCluster must contain only integer!")
-  }
-  if(sum(nbCluster < 1)){ 
-    stop(paste(sQuote("nbCluster"), "must be an integer greater than 0!"))
-  }
-  
+    stop(paste(sQuote("data"), "must be a matrix"))  
   
   # check lambda parameter
   if(missing(lambda)){

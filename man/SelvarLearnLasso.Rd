@@ -4,21 +4,19 @@
 Regularization for variable selection in discriminant analysis 
 }
 \description{
-These function implement the variable selection in discriminant 
+This function implements the variable selection in discriminant 
 analysis using a lasso ranking on the variables as described in Celeux et al (2014).
 The variable ranking step uses the penalized EM algorithm of Zhou et al (2009) (supervised case).
 }
 \usage{
-SelvarLearnLasso(data, 
-          nbCluster, 
-          lambda, 
-          rho, 
-          hybrid.size = 3,  
-          criterion = "BIC", 
-          models = mixmodGaussianModel(listModels = "Gaussian_pk_Lk_C"), 
-          regModel = c("LI", "LB", "LC"), 
-          indepModel = c("LI", "LB"),
-          knownlabels)
+SelvarLearnLasso(data,
+                 lambda, 
+                 rho, 
+                 hybrid.size,  
+                 models, 
+                 regModel, 
+                 indepModel,
+                 knownlabels)
 }
 
 \arguments{
@@ -28,10 +26,8 @@ SelvarLearnLasso(data,
   Rows correspond to observations and
   columns correspond to variables.
 }
-  \item{nbCluster}{
- numeric listing the number of clusters (must be integers).
-}
-  \item{lambda}{
+
+ \item{lambda}{
   numeric listing of means penalties.
 }
   \item{rho}{
@@ -42,9 +38,9 @@ optionnal parameter make less strength  the hybrid forward and backward
 algorithms to select \eqn{S} and \eqn{W} sets.
 }
 
-\item{criterion}{character defining the criterion
-  to select the best model. The selected model is the one with
-  the lowest criterion value. Possible values: "BIC".}
+%\item{criterion}{character defining the criterion
+%  to select the best model. The selected model is the one with
+%  the lowest criterion value. Possible values: "BIC".}
 
 \item{models}{a  Rmixmod [\code{\linkS4class{Model}}] object
   defining the list of models to run. For quantitative
@@ -64,10 +60,16 @@ algorithms to select \eqn{S} and \eqn{W} sets.
   the highest criterion value. Possible values: "LI" for spherical form and "LB" for diagonal form.
   Possible values: "LI", "LB", c("LI", "LB"). Default is c("LI", LB").}
 
+\item{knownlabels}{
+  an integer vector or a factor of size
+  number of observations. Each cell corresponds to a
+  cluster affectation. So the maximum value is the number
+  of clusters.
+}
 }
 
-\value{ for each criterion BIC or ICL
-\item{nbCluster}{the estimated number of clusters}
+\value{ 
+\item{nbCluster}{number of clusters}
 \item{proba }{matrix containing the conditional probabilities of belonging to each cluster for all observations}
 \item{partition}{vector of length \emph{n} containing the cluster assignments of the \emph{n} observations according to the Maximum-a-Posteriori principle}
 \item{model }{The selected covariance model} %% the selected gaussian mixture form
@@ -78,6 +80,7 @@ algorithms to select \eqn{S} and \eqn{W} sets.
 \item{criterionValue}{The criterion value for the selected model}
 \item{regModel }{The  selected covariance form for the regression}
 \item{indepModel}{The selected covariance form for the independent variables}
+
 }
 
 
@@ -85,11 +88,28 @@ algorithms to select \eqn{S} and \eqn{W} sets.
 Mohammed Sedki <\url{mohammed.sedki@u-psud.fr}>
 }
 \references{
+  Zhou, H., Pan, W., and Shen, X., 2009. "Penalized model-based 
+  clustering with unconstrained covariance matrices". 
+  Electronic Journal of Statistics, vol. 3, pp.1473–1496.
+  
+  Maugis, C., Celeux, G., and Martin-Magniette, M. L., 2009. 
+  "Variable selection in model-based clustering: 
+  A general variable role modeling". Computational 
+  Statistics and Data Analysis, vol. 53/11, pp. 3872–3882.
+
+   Celeux, G., Martin-Magniette, M. L., Maugis, C., and Raftery, A. E., 2014. 
+  "Comparing Model Selection and Regularization Approaches to Variable
+   Selection in Model-Based Clustering". Journal de la Société Française
+   de Statistique, vol. 155/2, pp. 57–71.
+
 }
 
 \keyword{discriminant analysis, variable selection, lasso ranking and graphical lasso}
 \seealso{
-à venir le papier
+\link{SelvarClustLasso}
+\link{SortvarLearn}
+\link{SortvarClust}
+\link{scenarioCor}
 }
 \examples{
 
@@ -101,8 +121,6 @@ data(scenarioCor)
 lambda <- seq(0.1,  100, length = 50)
 rho <- seq(1, 2, length=2)
 hybrid.size <- 3
-nbCluster <-  4
-criterion <- "BIC"
 models <- mixmodGaussianModel(family = "spherical", equal.proportions = TRUE)
 regModel <- c("LI","LB","LC")
 indepModel <- c("LI","LB")
@@ -110,7 +128,7 @@ indepModel <- c("LI","LB")
 ##supervised clustering (discriminant analysis)
 data.cor <- scenarioCor[,1:14]
 labels.cor <-scenarioCor[,15]
-simulate.learn <- SelvarLearnLasso(data.cor, nbCluster, lambda, rho, hybrid.size, criterion, models, regModel, indepModel, labels.cor)
+simulate.learn <- SelvarLearnLasso(data.cor, lambda, rho, hybrid.size, models, regModel, indepModel, labels.cor)
 
 
 

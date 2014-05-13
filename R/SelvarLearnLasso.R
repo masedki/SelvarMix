@@ -2,15 +2,13 @@
 ##                               SelvarLearnLasso.R                              ##
 ###################################################################################
 SelvarLearnLasso <- 
-  function(data, 
-           nbCluster, 
+  function(data,  
            lambda, 
            rho,
-           pack.size = 3,  
-           criterion = "BIC",
-           models = mixmodGaussianModel(listModels = "Gaussian_pk_Lk_C"),
-           modelReg = c("LI", "LB", "LC"),
-           modelIndep = c("LI", "LB"),
+           hybrid.size,  
+           models,
+           regModel,
+           indepModel,
            knownlabels)
   {
     
@@ -20,18 +18,6 @@ SelvarLearnLasso <-
     } 
     if(is.matrix(data) == FALSE & is.data.frame(data) == FALSE) 
       stop(paste(sQuote("data"), "must be a matrix"))
-    
-    
-    # check nbCluster parameter
-    if(missing(nbCluster)){
-      stop("nbCluster is missing!")
-    }
-    if(sum(!is.wholenumber(nbCluster))){
-      stop("nbCluster must contain only integer!")
-    }
-    if(sum(nbCluster < 1)){ 
-      stop(paste(sQuote("nbCluster"), "must be an integer greater than 0!"))
-    }
      
     # check lambda parameter
     if(missing(lambda)){
@@ -58,21 +44,35 @@ SelvarLearnLasso <-
     }
      
     
-    # check hybrid.size
+    # check hybrid.size  default value = 3
+    if(missing(hybrid.size)){
+      hybrid.size <- 3
+    }
     if(!is.wholenumber(hybrid.size) | sum(hybrid.size < 1) | hybrid.size > ncol(data)) 
       stop(paste(sQuote("hybrid.size"), "must be a positive integer <= ncol(data)"))
     
-    # check criterion parameter
-    if( sum(criterion %in% c("BIC")) != length(criterion) ){
-      stop(cat(criterion[which(!(criterion %in% c("ICL")))], "is not a valid criterion name !\n"))
+    # check models 
+    if(missing(models)){
+      ##models <- mixmodGaussianModel(listModels = "Gaussian_pk_Lk_C")
+      models <- mixmodGaussianModel(family = "general", free.proportions = TRUE) 
     }
-    
+    # check criterion parameter
+#     if( sum(criterion %in% c("BIC")) != length(criterion) ){
+#       stop(cat(criterion[which(!(criterion %in% c("ICL")))], "is not a valid criterion name !\n"))
+#     }
+#     
     # check regModel
+    if(missing(regModel)){
+      regModel <- c("LI", "LB", "LC")
+    }
     if( sum(regModel %in% c("LI","LB","LC")) != length(regModel) ){
       stop(cat(regModel[which(!(regModel %in% c("LI","LB","LC")))], "is not a valid regModel name !\n"))
     }
     
     # check indepModel
+    if(missing(indepModel)){
+      indepModel <- c("LI", "LB")
+    }
     if ( sum(indepModel %in% c("LI","LB")) != length(indepModel) ){
       stop(cat(indepModel[which(!(indepModel %in% c("LI","LB")))], "is not a valid indepModel name !\n"))
     }
@@ -85,20 +85,20 @@ SelvarLearnLasso <-
     if (min(knownlabels) <= 0 | length(knownlabels) != nrow(data)){
       stop("Each observation in knownLabels must have a valid cluster affectation !")
     }
-    # check the number of cluster
-    if (length(nbCluster) != 1 | max(knownlabels)!= nbCluster ){
-      warning("length of nbCluster must be 1 and equal to max(knownLabels)!")
-      nbCluster <- max(knownlabels)
-    }
     
+
     ## on est supervisé donc on initialiser supervised à TRUE.
     supervised <- TRUE
+    ## On ne fournit pas ici le paramètre nbCluster  
+    nbCluster <- as.integer(max(knownlabels))
+    ## on en a qu'un seul critère ici c'est : BIC
+    criterion <- "BIC" 
     ## penser au cas où l'utilisateur introduit une liste de matrices de données (une matrice par groupe)   
     data <- as.matrix(data)
     n <- as.integer(nrow(data))
     p <- as.integer(ncol(data))
-    nbCluster <- as.integer(nbCluster)
-    OrderVariable <- matrix(NA, nrow = length(nbCluster), ncol = p) 
+    ## on n'en a qu'un seul ordre des variables  
+    OrderVariable <- rep(NA, p) 
     dataStand <- scale(data, TRUE, TRUE)
     print("............... start  variables  ranking .................................... ")
     OrderVariable <- SortvarLearn(dataStand, lambda, rho, knownlabels)
@@ -118,6 +118,8 @@ SelvarLearnLasso <-
                                      data,
                                      regModel,
                                      indepModel)
+    ## ajout du calcul du taux de mauvais classement une fois le meilleur modèle est sélectionné
+    bestModel$error <- 1 - mean(bestModel$partition == knownlabels)
     return(bestModel)  
     
   }

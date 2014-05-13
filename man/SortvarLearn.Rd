@@ -26,14 +26,14 @@ SortvarLearn(data, lambda, rho, knownlabels)
   an integer vector or a factor of size
   number of observations. Each cell corresponds to a
   cluster affectation. So the maximum value is the number
-  of clusters.}
+  of clusters.
 }
 }
 %\details{
 %%  ~~ If necessary, more details than the description above ~~
 %}
 \value{
- vector of integers corresponding to variables raking.
+ vector of integers corresponding to variable raking.
 }
 \references{
   Zhou, H., Pan, W., and Shen, X., 2009. "Penalized model-based 
@@ -50,7 +50,7 @@ Mohammed Sedki \email{mohammed.sedki@u-psud.fr}
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-link[pkg:SelvarMix]{SortvarClust}
+\link{SortvarClust}
 }
 \examples{
 ## Simulated data  example as shown in Celeux et al. (2014) (correlated scenario 2) 
@@ -64,9 +64,10 @@ lambda <- seq(0.1,  100, length = 50)
 rho <- seq(1, 2, length=2)
 nbCluster <-  4
 labels.cor <-scenarioCor[,15]
-## supervised case
+
+## variable ranking in discriminant analysis 
 labels.cor <-scenarioCor[,15]
-var.ranking.learn <- SortvarClust(data.cor, lambda, rho, knownlabels)
+var.ranking.learn <- SortvarLearn(data.cor, lambda, rho, labels.cor)
 }
 \keyword{Variable ranking}
-\keyword{Penalized model-based clustering}
+\keyword{Penalized discriminant analysis}
