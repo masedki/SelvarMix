@@ -7,6 +7,7 @@ Regularization for variable selection in discriminant analysis
 This function implements the variable selection in discriminant 
 analysis using a lasso ranking on the variables as described in Celeux et al (2014).
 The variable ranking step uses the penalized EM algorithm of Zhou et al (2009) (supervised case).
+A testing data-labels sample can be used to compute the averaged classification error rates.
 }
 \usage{
 SelvarLearnLasso(data,
@@ -16,7 +17,9 @@ SelvarLearnLasso(data,
                  models, 
                  regModel, 
                  indepModel,
-                 knownlabels)
+                 knownlabels,
+                 dataTest,
+                 labelsTest)
 }
 
 \arguments{
@@ -44,8 +47,11 @@ algorithms to select \eqn{S} and \eqn{W} sets.
 
 \item{models}{a  Rmixmod [\code{\linkS4class{Model}}] object
   defining the list of models to run. For quantitative
-  data, the model "Gaussian_pk_Lk_C" is called (see
-  mixmodGaussianModel() in Rmixmod package to specify other models).}
+  data, the models: Gaussian_p_L_C, Gaussian_pk_L_C, 
+  Gaussian_p_Lk_C, Gaussian_p_L_Ck, Gaussian_pk_Lk_C, 
+  Gaussian_pk_L_Ck, Gaussian_p_Lk_Ck and Gaussian_pk_Lk_Ck 
+  are  called by default (see mixmodGaussianModel() in Rmixmod package 
+  to specify other models).}
 
 \item{regModel}{list of character defining the covariance matrix forms for
   the regression of \eqn{U} variables on the \eqn{R} set of variables  
@@ -65,6 +71,15 @@ algorithms to select \eqn{S} and \eqn{W} sets.
   number of observations. Each cell corresponds to a
   cluster affectation. So the maximum value is the number
   of clusters.
+}
+\item{dataTest}{matrix  containing quantitative testing data. 
+  Rows correspond to observations and
+  columns correspond to variables. 
+}
+\item{labelsTest}{
+  an integer vector or a factor of size
+  number of testing observations. Each cell corresponds to a
+  cluster affectation. 
 }
 }
 
@@ -126,9 +141,24 @@ regModel <- c("LI","LB","LC")
 indepModel <- c("LI","LB")
 
 ##supervised clustering (discriminant analysis)
-data.cor <- scenarioCor[,1:14]
-labels.cor <-scenarioCor[,15]
-simulate.learn <- SelvarLearnLasso(data.cor, lambda, rho, hybrid.size, models, regModel, indepModel, labels.cor)
+## training sample
+data <- scenarioCor[1:1000,1:14]
+labels <-scenarioCor[1:1000,15]
+
+## testing sample
+dataTest <- scenarioCor[1001:2000,1:14]
+labelsTest <-scenarioCor[1001:2000,15]
+
+simulate.learn <- SelvarLearnLasso(data, 
+                                   lambda, 
+                                   rho, 
+                                   hybrid.size, 
+                                   models, 
+                                   regModel, 
+                                   indepModel, 
+                                   labels, 
+                                   dataTest, 
+                                   labelsTest)
 
 
 

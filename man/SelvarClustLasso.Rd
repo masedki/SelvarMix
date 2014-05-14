@@ -47,8 +47,11 @@ algorithms to select \eqn{S} and \eqn{W} sets.
   "ICL", c("BIC", "ICL"). Default is "BIC".}
 
 \item{models}{a  Rmixmod [\code{\linkS4class{Model}}] object
-  defining the list of models to run. The model "Gaussian_pk_Lk_C" 
-  is called by default (see mixmodGaussianModel() in Rmixmod 
+  defining the list of models to run. The models 
+  Gaussian_p_L_C, Gaussian_pk_L_C, Gaussian_p_Lk_C, 
+  Gaussian_p_L_Ck, Gaussian_pk_Lk_C, Gaussian_pk_L_Ck, 
+  Gaussian_p_Lk_Ck and Gaussian_pk_Lk_Ck are called by 
+  default (see mixmodGaussianModel() in Rmixmod 
   package to specify other models).}
 
 \item{regModel}{list of character defining the covariance matrix forms for
@@ -125,6 +128,14 @@ indepModel <- c("LI","LB")
 
 ## unsupervised clustering  
 data.cor <- scenarioCor[,1:14]
-simulate.clust  <- SelvarClustLasso(data.cor, nbCluster, lambda, rho, hybrid.size, criterion, models, regModel, indepModel)
+simulate.clust  <- SelvarClustLasso(data.cor, 
+                                    nbCluster, 
+                                    lambda, 
+                                    rho, 
+                                    hybrid.size, 
+                                    criterion, 
+                                    models, 
+                                    regModel, 
+                                    indepModel)
  
 }

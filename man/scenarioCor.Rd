@@ -24,11 +24,11 @@
 \details{
 The subset \eqn{U} of redundant variables is simulated as follows :
 
- \eqn{x^{U} =  (0,0, 0.4, 0.8, ..., 2) + x^{S} b + \epsilon, with \epsilon ~ N(0_9, \Omega)}
+ \eqn{x^{U} =  (0,0, 0.4, 0.8, ..., 2) + x^{S} b + \varepsilon}, with \eqn{\varepsilon \sim N(0_9, \Omega)}
  
 The subset \eqn{W} of independent variables is simulated as follows :
 
-\eqn{x^{W} ~ N((3.2, 3.6, 4), I_3)}
+\eqn{x^{W} \sim N((3.2, 3.6, 4), I_3)}
 
 For more details on the regression coefficients \eqn{b} and the covariance
 matrix \eqn{\Omega} see Celeux et al.(2014) (section 3.2).

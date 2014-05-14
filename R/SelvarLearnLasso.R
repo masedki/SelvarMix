@@ -143,8 +143,8 @@ SelvarLearnLasso <-
     ## ajout du calcul du taux de mauvais classement une fois le meilleur modèle est sélectionné
     if(testing)
     {
-      dataAux <- data[,bestModel$S]
-      dataTestAux <- dataTest[, bestModel$S]
+      dataAux <- as.data.frame(data[,bestModel$S])
+      dataTestAux <- as.data.frame(dataTest[,bestModel$S])
       model <- mixmodGaussianModel(listModels = bestModel$model)
       learn <- mixmodLearn(dataAux, knownLabels = knownlabels, models = model)
       predict <- mixmodPredict(dataTestAux, classificationRule = learn["bestResult"])

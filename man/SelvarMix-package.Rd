@@ -1,7 +1,7 @@
 \docType{package}
 \name{SelvarMix-package}
 \alias{SelvarMix-package}
-\title{REGULARIZATION FOR VARIABLE SELECTION IN MODEL-BASED CLUSTERING AND DISCRIMINANT ANALYSIS}
+\title{Regularization for variable selection in model-based clustering and discriminant analysis}
 \description{
   SelvarMix is a package where a regularization approach 
   of variable selection is considered in model-based 
@@ -75,20 +75,36 @@ indepModel <- c("LI","LB")
 
 ## unsupervised clustering  
 data.cor <- scenarioCor[,1:14]
-simulate.clust  <- SelvarClustLasso(data.cor, nbCluster, lambda, rho, hybrid.size, criterion, models, regModel, indepModel)
+simulate.clust  <- SelvarClustLasso(data.cor, 
+                                    nbCluster, 
+                                    lambda, 
+                                    rho, 
+                                    hybrid.size, 
+                                    criterion, 
+                                    models, 
+                                    regModel, 
+                                    indepModel)
 
 
 ## supervised clustering (discriminant analysis)
 labels.cor <-scenarioCor[,15]
 nbCluster <- 4
-simulate.learn <- SelvarLearnLasso(data.cor, nbCluster, lambda, rho, hybrid.size, criterion, models, regModel, indepModel, labels.cor)
+simulate.learn <- SelvarLearnLasso(data.cor, 
+                                   nbCluster, 
+                                   lambda, 
+                                   rho, 
+                                   hybrid.size, 
+                                   criterion, 
+                                   models, 
+                                   regModel, 
+                                   indepModel, 
+                                   labels.cor)
 
 }
 }
 \author{
-  Author: Mohammed Sedki and Cathy Maugis-Rabusseau, 
-  with contributions from G. Celeux 
-  \email{mohammed.sedki@u-psud.fr}
+  Author: Mohammed Sedki, Cathy Maugis-Rabusseau and Gilles Celeux 
+  
 }
 \references{
   Maugis, C., Celeux, G., and Martin-Magniette, M. L., 2009. 
