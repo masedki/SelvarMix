@@ -74,7 +74,15 @@ SelvarClustLasso <-
     
     # check models 
     if(missing(models)){
-    models <- mixmodGaussianModel(family="general", free.proportions=TRUE)  
+    ##models <- mixmodGaussianModel(family="general", free.proportions=TRUE)  
+    models <- mixmodGaussianModel(listModels = c("Gaussian_p_L_C", 
+                                                 "Gaussian_pk_L_C", 
+                                                 "Gaussian_p_Lk_C", 
+                                                 "Gaussian_p_L_Ck", 
+                                                 "Gaussian_pk_Lk_C", 
+                                                 "Gaussian_pk_L_Ck", 
+                                                 "Gaussian_p_Lk_Ck", 
+                                                 "Gaussian_pk_Lk_Ck"))
     }
     # check regModel
     if(missing(regModel)){

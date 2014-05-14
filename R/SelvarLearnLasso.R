@@ -9,7 +9,9 @@ SelvarLearnLasso <-
            models,
            regModel,
            indepModel,
-           knownlabels)
+           knownlabels,
+           dataTest,
+           labelsTest)
   {
     
     # check data parameter
@@ -18,7 +20,7 @@ SelvarLearnLasso <-
     } 
     if(is.matrix(data) == FALSE & is.data.frame(data) == FALSE) 
       stop(paste(sQuote("data"), "must be a matrix"))
-     
+    
     # check lambda parameter
     if(missing(lambda)){
       stop("lambda is missing!")
@@ -30,8 +32,6 @@ SelvarLearnLasso <-
       stop("lambda must greater than 0!")
     }
     
-    
-    
     # check rho parameter
     if(missing(rho)){
       stop("rho is missing!")
@@ -42,7 +42,7 @@ SelvarLearnLasso <-
     if(sum(rho<=0)){
       stop("rho must greater than 0!")
     }
-     
+    
     
     # check hybrid.size  default value = 3
     if(missing(hybrid.size)){
@@ -54,13 +54,21 @@ SelvarLearnLasso <-
     # check models 
     if(missing(models)){
       ##models <- mixmodGaussianModel(listModels = "Gaussian_pk_Lk_C")
-      models <- mixmodGaussianModel(family = "general", free.proportions = TRUE) 
+      ##models <- mixmodGaussianModel(family = "general", free.proportions = TRUE) 
+      models <- mixmodGaussianModel(listModels = c("Gaussian_p_L_C", 
+                                                   "Gaussian_pk_L_C", 
+                                                   "Gaussian_p_Lk_C", 
+                                                   "Gaussian_p_L_Ck", 
+                                                   "Gaussian_pk_Lk_C", 
+                                                   "Gaussian_pk_L_Ck", 
+                                                   "Gaussian_p_Lk_Ck", 
+                                                   "Gaussian_pk_Lk_Ck"))
     }
     # check criterion parameter
-#     if( sum(criterion %in% c("BIC")) != length(criterion) ){
-#       stop(cat(criterion[which(!(criterion %in% c("ICL")))], "is not a valid criterion name !\n"))
-#     }
-#     
+    #     if( sum(criterion %in% c("BIC")) != length(criterion) ){
+    #       stop(cat(criterion[which(!(criterion %in% c("ICL")))], "is not a valid criterion name !\n"))
+    #     }
+    #     
     # check regModel
     if(missing(regModel)){
       regModel <- c("LI", "LB", "LC")
@@ -86,7 +94,21 @@ SelvarLearnLasso <-
       stop("Each observation in knownLabels must have a valid cluster affectation !")
     }
     
-
+    ## check dataTest and labelsTest
+    if(missing(dataTest) && !missing(labelsTest))
+      stop("dataTest is missing!")
+    
+    if(!missing(dataTest) && missing(labelsTest))
+      stop("labelsTest are missing!")
+    
+    if(!missing(dataTest))
+      if((is.matrix(dataTest) == FALSE & is.data.frame(dataTest) == FALSE)) 
+        stop(paste(sQuote("dataTest"), "must be a matrix"))
+    
+    testing <- TRUE
+    if(missing(dataTest) && missing(labelsTest))
+      testing <- FALSE
+    
     ## on est supervisé donc on initialiser supervised à TRUE.
     supervised <- TRUE
     ## On ne fournit pas ici le paramètre nbCluster  
@@ -100,9 +122,9 @@ SelvarLearnLasso <-
     ## on n'en a qu'un seul ordre des variables  
     OrderVariable <- rep(NA, p) 
     dataStand <- scale(data, TRUE, TRUE)
-    print("............... start  variables  ranking .................................... ")
+    print("............... start  variable  ranking .................................... ")
     OrderVariable <- SortvarLearn(dataStand, lambda, rho, knownlabels)
-    print("................. variables ranking .... done ................................ ") 
+    print("................. variable ranking .... done ................................ ") 
     bestModel <- list()
     print(" ...... SRUW  selection with BIC criterion ...... ")
     VariableSelectRes <- VariableSelection(data,
@@ -119,7 +141,18 @@ SelvarLearnLasso <-
                                      regModel,
                                      indepModel)
     ## ajout du calcul du taux de mauvais classement une fois le meilleur modèle est sélectionné
-    bestModel$error <- 1 - mean(bestModel$partition == knownlabels)
+    if(testing)
+    {
+      dataAux <- data[,bestModel$S]
+      dataTestAux <- dataTest[, bestModel$S]
+      model <- mixmodGaussianModel(listModels = bestModel$model)
+      learn <- mixmodLearn(dataAux, knownLabels = knownlabels, models = model)
+      predict <- mixmodPredict(dataTestAux, classificationRule = learn["bestResult"])
+      bestModel$error <- 1 - mean(predict["partition"] == labelsTest)
+    }
+    else
+      bestModel$error <- 1 - mean(bestModel$partition == knownlabels)
+    
     return(bestModel)  
     
   }
