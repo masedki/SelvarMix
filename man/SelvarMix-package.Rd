@@ -8,11 +8,11 @@
   clustering and discriminant analysis frameworks. 
   First, this procedure consists of ranking the variables 
   with a lasso-like procedure. Second, the method of
-  Maugis et al 2009. and Maugis et al 2011. 
-  is adapted to define the role of variables in the 
-  two frameworks. SelvarMix provides a faster variable 
-  selection algorithm than the backward stepwise or forward 
-  stepwise algorithms of Maugis et al 2009., allowing us 
+  Maugis et al (2009, 2011) is adapted to define the 
+  role of variables in the two frameworks. 
+  SelvarMix provides a faster variable selection 
+  algorithm than the backward stepwise or forward 
+  stepwise algorithms of Maugis et al (2009), allowing us 
   to study high-dimensional datasets.
 }
 \details{
@@ -29,7 +29,7 @@
   provides a rigorous and nice framework to embed 
   the variable selection task in cluster analysis.
   The most achieved model in model-based clustering
-  has been presented in Maugis et al 2009. This model, 
+  has been presented in Maugis et al (2009). This model, 
   called the \eqn{SRUW} model, is rather complete 
   since it anticipates four different possible roles 
   for the variables: a variable may belongs to \eqn{S} the
@@ -39,71 +39,58 @@
   depending on a subset \eqn{R} of the relevant variables S 
   according to a linear regression model.  This is the 
   reason why this variable selection model has been 
-  christened the \eqn{SRUW} model.
+  christened the \eqn{SRUW} model. It happens that the stepwises 
+  (forward or backward) procedures to estimate the sets 
+  \eqn{S, U , W} and \eqn{R} in the \eqn{SRUW} models are 
+  painfully slow when numerous variables are available. 
+  Thus there is the need for an alternative procedure 
+  to get an approximation of these sets in a reasonable 
+  CPU time.
   
-  Zhou et al 2009. proposed a different approach via regularization 
+  Zhou et al (2009) proposed a different approach via regularization 
   with no retrictive assumption on the component variance matrices. 
   This regularization approach could be expected to be of interest 
   in a high dimensional setting, but it only allows relevant and 
-  independent variables. It happens that the stepwises (forward or 
-  backward) procedures to estimate the sets \eqn{S, U , R} and \eqn{W} 
-  in the \eqn{SRUW} models are painfully slow when numerous variables 
-  are available. Thus there is the need for an alternative procedure 
-  to get an approximation of these sets in a reasonable CPU time.
+  independent variables. 
  
-  SelvarMix proceed in two steps. First, we rank the variables using 
-  a procedure analogous to the procedure of Zhou et al 2009. Then the 
+  SelvarMix proceeds in two steps. First, we rank the variables using 
+  a procedure analogous to the procedure of Zhou et al (2009). Then the 
   \eqn{SRUW} procedure is run on this ranked set of variables avoiding 
-  the exepensive forward or backward procedures involved in the procedure 
-  of Maugis et al 2009.
+  the expensive forward or backward procedures involved in the procedure 
+  of Maugis et al (2009).
 }
 \examples{
 \dontrun{
 ## Simulated data  example as shown in Celeux et al. (2014) (correlated scenario 2) 
-## n = 2000 observations, p = 14
+## n = 2000 observations, p = 14 variables 
 
 data(scenarioCor)
+data.cor <- scenarioCor[,1:14]
+labels.cor <-scenarioCor[,15]
+
 
 lambda <- seq(0.1,  100, length = 50)
 rho <- seq(1, 2, length=2)
 hybrid.size <- 3
-nbCluster <-  c(3,4)
-criterion <- "BIC"
 models <- mixmodGaussianModel(family = "spherical", equal.proportions = TRUE)
 regModel <- c("LI","LB","LC")
 indepModel <- c("LI","LB")
 
-## unsupervised clustering  
-data.cor <- scenarioCor[,1:14]
-simulate.clust  <- SelvarClustLasso(data.cor, 
-                                    nbCluster, 
-                                    lambda, 
-                                    rho, 
-                                    hybrid.size, 
-                                    criterion, 
-                                    models, 
-                                    regModel, 
-                                    indepModel)
+## variable selection in model-based clustering  
+nbCluster <-  c(3,4)
+criterion <- "BIC"
+simulate.clust  <- SelvarClustLasso(data.cor, nbCluster, lambda, rho, hybrid.size, criterion, models, 
+                                    regModel, indepModel)
 
 
-## supervised clustering (discriminant analysis)
-labels.cor <-scenarioCor[,15]
-nbCluster <- 4
-simulate.learn <- SelvarLearnLasso(data.cor, 
-                                   nbCluster, 
-                                   lambda, 
-                                   rho, 
-                                   hybrid.size, 
-                                   criterion, 
-                                   models, 
-                                   regModel, 
-                                   indepModel, 
+## variable selection in discriminant analysis
+simulate.learn <- SelvarLearnLasso(data.cor, lambda, rho, hybrid.size, models, regModel, indepModel, 
                                    labels.cor)
 
 }
 }
 \author{
-  Author: Mohammed Sedki, Cathy Maugis-Rabusseau and Gilles Celeux 
+  Author: Mohammed Sedki, Gilles Celeux and Cathy Maugis-Rabusseau  
   
 }
 \references{

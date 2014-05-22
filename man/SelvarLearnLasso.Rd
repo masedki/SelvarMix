@@ -5,21 +5,13 @@ Regularization for variable selection in discriminant analysis
 }
 \description{
 This function implements the variable selection in discriminant 
-analysis using a lasso ranking on the variables as described in Celeux et al (2014).
+analysis using a lasso ranking on the variables as described in !!!! OUR PAPER!!!.
 The variable ranking step uses the penalized EM algorithm of Zhou et al (2009) (supervised case).
 A testing data-labels sample can be used to compute the averaged classification error rates.
 }
 \usage{
-SelvarLearnLasso(data,
-                 lambda, 
-                 rho, 
-                 hybrid.size,  
-                 models, 
-                 regModel, 
-                 indepModel,
-                 knownlabels,
-                 dataTest,
-                 labelsTest)
+SelvarLearnLasso(data, lambda, rho, hybrid.size,  models, regModel, indepModel,
+                 knownlabels, dataTest, labelsTest)
 }
 
 \arguments{
@@ -27,18 +19,25 @@ SelvarLearnLasso(data,
   \item{data}{
   matrix  containing quantitative data. 
   Rows correspond to observations and
-  columns correspond to variables.
+  columns correspond to variables
+}
+
+\item{knownlabels}{
+  an integer vector or a factor of size
+  number of observations. Each cell corresponds to a
+  cluster affectation. So the maximum value is the number
+  of clusters
 }
 
  \item{lambda}{
-  numeric listing of means penalties.
+  numeric listing of tuning parameter for \eqn{\ell_1} mean penalty
 }
   \item{rho}{
-  numeric listing of precision matrix penalties.
+  numeric listing of tuning parameter for \eqn{\ell_1} precision matrix penalty
 }
 \item{hybrid.size}{
 optionnal parameter make less strength  the hybrid forward and backward 
-algorithms to select \eqn{S} and \eqn{W} sets.
+algorithms to select \eqn{S} and \eqn{W} sets
 }
 
 %\item{criterion}{character defining the criterion
@@ -46,32 +45,26 @@ algorithms to select \eqn{S} and \eqn{W} sets.
 %  the lowest criterion value. Possible values: "BIC".}
 
 \item{models}{a  Rmixmod [\code{\linkS4class{Model}}] object
-  defining the list of models to run. For quantitative
-  data, the models: Gaussian_p_L_C, Gaussian_pk_L_C, 
-  Gaussian_p_Lk_C, Gaussian_p_L_Ck, Gaussian_pk_Lk_C, 
-  Gaussian_pk_L_Ck, Gaussian_p_Lk_Ck and Gaussian_pk_Lk_Ck 
-  are  called by default (see mixmodGaussianModel() in Rmixmod package 
-  to specify other models).}
+  defining the list of models to run. The models 
+  Gaussian_pk_L_C, Gaussian_pk_Lk_C, Gaussian_pk_L_Ck, 
+  and Gaussian_pk_Lk_Ck are called by default 
+  (see mixmodGaussianModel() in Rmixmod package to
+  specify other models)}
 
-\item{regModel}{list of character defining the covariance matrix forms for
-  the regression of \eqn{U} variables on the \eqn{R} set of variables  
-  to select the best model. The best model is the one with
-  the highest criterion value. Possible values: "LI" for spherical form,
-  "LB" for diagonal form and  "LC" for general form.
-  Possible values: "LI", "LB", "LC", c("LI", "LB"), c("LI", "LC"), c("LB", "LC")
-  and c("LI", "LB", "LC"). Default is c("LI", "LB", "LC").}
+\item{regModel}{list of character defining the covariance matrix form for
+  the linear regression of \eqn{U} on the \eqn{R} set of variable. 
+  Possible values: "LI" for spherical form, "LB" for diagonal form and  
+  "LC" for general form. Possible values: "LI", "LB", "LC", c("LI", "LB")
+  , c("LI", "LC"), c("LB", "LC") and c("LI", "LB", "LC"). 
+  Default is c("LI", "LB", "LC")}
 
-\item{indepModel}{list of character defining the covariance matrix forms for
-  independent variables \eqn{W} to select the best model. The best model is the one with
-  the highest criterion value. Possible values: "LI" for spherical form and "LB" for diagonal form.
-  Possible values: "LI", "LB", c("LI", "LB"). Default is c("LI", LB").}
+\item{indepModel}{list of character defining the covariance matrix form for
+  independent variables \eqn{W}. Possible values: 
+  "LI" for spherical form and "LB" for diagonal form.
+  Possible values: 
+  "LI", "LB", c("LI", "LB"). Default is c("LI", LB")}
 
-\item{knownlabels}{
-  an integer vector or a factor of size
-  number of observations. Each cell corresponds to a
-  cluster affectation. So the maximum value is the number
-  of clusters.
-}
+
 \item{dataTest}{matrix  containing quantitative testing data. 
   Rows correspond to observations and
   columns correspond to variables. 
@@ -84,18 +77,20 @@ algorithms to select \eqn{S} and \eqn{W} sets.
 }
 
 \value{ 
-\item{nbCluster}{number of clusters}
-\item{proba }{matrix containing the conditional probabilities of belonging to each cluster for all observations}
-\item{partition}{vector of length \emph{n} containing the cluster assignments of the \emph{n} observations according to the Maximum-a-Posteriori principle}
-\item{model }{The selected covariance model} %% the selected gaussian mixture form
-\item{S }{The set of clustering relevant variables}
-\item{R }{The subset of regressors}
-\item{U }{The set of redundant variables}
-\item{W }{The set of independent variables}
+%\item{nbCluster}{number of clusters}
+\item{S }{The selected set of clustering relevant variables}
+\item{R }{The selected subset of regressors}
+\item{U }{The selected set of redundant variables}
+\item{W }{The selected set of independent variables}
 \item{criterionValue}{The criterion value for the selected model}
+\item{model }{The selected covariance model} %% the selected gaussian mixture form
 \item{regModel }{The  selected covariance form for the regression}
 \item{indepModel}{The selected covariance form for the independent variables}
 
+%\item{proba }{matrix containing the conditional probabilities of belonging to each cluster for all observations}
+%\item{partition}{vector of length \emph{n} containing the cluster assignments of the \emph{n} observations according to the Maximum-a-Posteriori principle}
+
+\item{error }{error rate done by Maximum-A-Posteriori principle}
 }
 
 
