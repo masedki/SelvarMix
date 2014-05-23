@@ -3,13 +3,13 @@
 ###################################################################################
 SelvarLearnLasso <- 
   function(data,  
+           knownlabels,
            lambda, 
            rho,
            hybrid.size,  
            models,
            regModel,
            indepModel,
-           knownlabels,
            dataTest,
            labelsTest)
   {

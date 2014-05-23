@@ -90,7 +90,7 @@ algorithms to select \eqn{S} and \eqn{W} sets
 %\item{proba }{matrix containing the conditional probabilities of belonging to each cluster for all observations}
 %\item{partition}{vector of length \emph{n} containing the cluster assignments of the \emph{n} observations according to the Maximum-a-Posteriori principle}
 
-\item{error }{error rate done by Maximum-A-Posteriori principle}
+\item{error }{error rate done by the Maximum-A-Posteriori principle}
 }
 
 
@@ -107,10 +107,10 @@ Mohammed Sedki <\url{mohammed.sedki@u-psud.fr}>
   A general variable role modeling". Computational 
   Statistics and Data Analysis, vol. 53/11, pp. 3872-3882.
 
-   Celeux, G., Martin-Magniette, M. L., Maugis, C., and Raftery, A. E., 2014. 
-  "Comparing Model Selection and Regularization Approaches to Variable
-   Selection in Model-Based Clustering". Journal de la Soci\'et\'e Fran\,caise
-   de Statistique, vol. 155/2, pp. 57-71.
+  % Celeux, G., Martin-Magniette, M. L., Maugis, C., and Raftery, A. E., 2014. 
+  %"Comparing Model Selection and Regularization Approaches to Variable
+  % Selection in Model-Based Clustering". Journal de la Soci\'et\'e Fran\,caise
+  % de Statistique, vol. 155/2, pp. 57-71.
 
 }
 
@@ -124,7 +124,7 @@ Mohammed Sedki <\url{mohammed.sedki@u-psud.fr}>
 \examples{
 
 ## Simulated data  example as shown in Celeux et al. (2014) (correlated scenario 2) 
-## n = 2000 observations, p = 14
+## n = 2000 observations, p = 14 variables 
 
 data(scenarioCor)
 
@@ -135,7 +135,7 @@ models <- mixmodGaussianModel(family = "spherical", equal.proportions = TRUE)
 regModel <- c("LI","LB","LC")
 indepModel <- c("LI","LB")
 
-##supervised clustering (discriminant analysis)
+## variables selection in discriminant analysis
 ## training sample
 data <- scenarioCor[1:1000,1:14]
 labels <-scenarioCor[1:1000,15]
@@ -144,16 +144,8 @@ labels <-scenarioCor[1:1000,15]
 dataTest <- scenarioCor[1001:2000,1:14]
 labelsTest <-scenarioCor[1001:2000,15]
 
-simulate.learn <- SelvarLearnLasso(data, 
-                                   lambda, 
-                                   rho, 
-                                   hybrid.size, 
-                                   models, 
-                                   regModel, 
-                                   indepModel, 
-                                   labels, 
-                                   dataTest, 
-                                   labelsTest)
+simulate.learn <- SelvarLearnLasso(data, labels, lambda, rho, hybrid.size, models, regModel, indepModel, 
+                                   dataTest, labelsTest)
 
 
 

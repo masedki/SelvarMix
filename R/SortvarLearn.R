@@ -1,7 +1,7 @@
 SortvarLearn <- function(data,
+                         knownlabels,
                          lambda,
-                         rho,
-                         knownlabels)
+                         rho)
 {
   # check data parameter
   if(missing(data)){
