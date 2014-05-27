@@ -41,11 +41,10 @@
   reason why this variable selection model has been 
   christened the \eqn{SRUW} model. It happens that the stepwises 
   (forward or backward) procedures to estimate the sets 
-  \eqn{S, U , W} and \eqn{R} in the \eqn{SRUW} models are 
-  painfully slow when numerous variables are available. 
-  Thus there is the need for an alternative procedure 
-  to get an approximation of these sets in a reasonable 
-  CPU time.
+  \eqn{S, U , W} and \eqn{R} are painfully slow when 
+  numerous variables are available. Thus there is the need 
+  for an alternative procedure to get an approximation of 
+  these sets in a reasonable CPU time.
   
   Zhou et al (2009) proposed a different approach via regularization 
   with no retrictive assumption on the component variance matrices. 
@@ -83,10 +82,18 @@ simulate.clust  <- SelvarClustLasso(data.cor, nbCluster, lambda, rho, hybrid.siz
                                     regModel, indepModel)
 
 
-## variable selection in discriminant analysis
-simulate.learn <- SelvarLearnLasso(data.cor, lambda, rho, hybrid.size, models, regModel, indepModel, 
-                                   labels.cor)
 
+## variables selection in discriminant analysis
+## training sample : n = 1900, p = 14 variables 
+data.learn <- scenarioCor[1:1900,1:14]
+labels.learn <-scenarioCor[1:1900,15]
+
+## testing sample : n = 100, p = 14 variables
+data.test <- scenarioCor[1901:2000,1:14]
+labels.test <-scenarioCor[1901:2000,15]
+
+simulate.da <- SelvarLearnLasso(data.learn, labels.learn, lambda, rho, hybrid.size, models, regModel, 
+                                indepModel, data.test, labels.test)
 }
 }
 \author{

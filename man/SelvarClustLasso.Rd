@@ -21,13 +21,13 @@ SelvarClustLasso(data, nbCluster, lambda, rho, hybrid.size,  criterion, models,
   columns correspond to variables
 }
   \item{nbCluster}{
- numeric listing the number of clusters (must be positive integers)
+ numeric listing of the number of clusters (must be positive integers)
 }
   \item{lambda}{
-  numeric listing of tuning parameter for \eqn{\ell_1} mean penalty
+  numeric listing of the tuning parameter for \eqn{\ell_1} mean penalty
 }
   \item{rho}{
-  numeric listing of tuning parameter for \eqn{\ell_1} precision matrix penalty
+  numeric listing of the tuning parameter for \eqn{\ell_1} precision matrix penalty
 }
 \item{hybrid.size}{
 optional parameter make less strength  the hybrid forward and backward 
@@ -48,10 +48,11 @@ algorithms to select \eqn{S} and \eqn{W} sets
 
 \item{regModel}{list of character defining the covariance matrix form for
   the linear regression of \eqn{U} on the \eqn{R} set of variables. 
-  Possible values: "LI" for spherical form (or shape),
-  "LB" for diagonal form and  "LC" for general form
-  Possible values: "LI", "LB", "LC", c("LI", "LB"), c("LI", "LC"), c("LB", "LC")
-  and c("LI", "LB", "LC"). Default is c("LI", "LB", "LC")}
+  Possible values: "LI" for spherical form,
+  "LB" for diagonal form and  "LC" for general form.
+  Possible values: "LI", "LB", "LC", c("LI", "LB"), 
+  c("LI", "LC"), c("LB", "LC") and c("LI", "LB", "LC"). 
+  Default is c("LI", "LB", "LC")}
 
 \item{indepModel}{list of character defining the covariance matrix form for
   independent variables \eqn{W}. Possible values: "LI" for spherical 
@@ -66,12 +67,12 @@ algorithms to select \eqn{S} and \eqn{W} sets
 \item{U }{The selected set of redundant variables}
 \item{W }{The selected set of independent variables}
 \item{criterionValue}{The criterion value for the selected model}
-\item{nbCluster}{the selected number of clusters}
-\item{model }{The selected Gaussian mixture form} %% the selected gaussian mixture form
+\item{nbCluster}{The selected number of clusters}
+\item{model}{The selected Gaussian mixture form} %% the selected gaussian mixture form
 \item{regModel }{The  selected covariance form for the regression}
-\item{indepModel}{The selected covariance form for the independent variables}
-\item{proba }{matrix containing the conditional probabilities of belonging to each cluster for all observations}
-\item{partition}{vector of length \emph{n} containing the cluster assignments of the \emph{n} observations according to the Maximum-a-Posteriori principle}
+\item{indepModel}{The selected covariance form for the independent gaussian distribution}
+\item{proba }{Matrix containing the conditional probabilities of belonging to each cluster for all observations}
+\item{partition}{Vector of length \emph{n} containing the cluster assignments of the \emph{n} observations according to the Maximum-a-Posteriori rule}
 }
 
 
@@ -109,7 +110,7 @@ Mohammed Sedki <\url{mohammed.sedki@u-psud.fr}>
 data(scenarioCor)
 data.cor <- scenarioCor[,1:14]
 
-lambda <- seq(0.1,  100, length = 50)
+lambda <- seq(0.1,  100, length = 25)
 rho <- seq(1, 2, length=2)
 hybrid.size <- 3
 nbCluster <-  c(3,4)

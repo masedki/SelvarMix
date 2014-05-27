@@ -29,7 +29,7 @@ SelvarLearnLasso <-
       stop(paste(sQuote("lambda"), "must be a vector with length >= 2"))
     }
     if (sum(lambda<=0)){
-      stop("lambda must greater than 0!")
+      stop("lambda must be greater than 0!")
     }
     
     # check rho parameter
@@ -40,7 +40,7 @@ SelvarLearnLasso <-
       stop(paste(sQuote("rho"), "must be a vector"))
     }
     if(sum(rho<=0)){
-      stop("rho must greater than 0!")
+      stop("rho must be greater than 0!")
     }
     
     
@@ -53,16 +53,14 @@ SelvarLearnLasso <-
     
     # check models 
     if(missing(models)){
-      ##models <- mixmodGaussianModel(listModels = "Gaussian_pk_Lk_C")
-      ##models <- mixmodGaussianModel(family = "general", free.proportions = TRUE) 
-      models <- mixmodGaussianModel(listModels = c("Gaussian_p_L_C", 
-                                                   "Gaussian_pk_L_C", 
-                                                   "Gaussian_p_Lk_C", 
-                                                   "Gaussian_p_L_Ck", 
+      models <- mixmodGaussianModel(listModels = c("Gaussian_pk_L_C", 
                                                    "Gaussian_pk_Lk_C", 
                                                    "Gaussian_pk_L_Ck", 
-                                                   "Gaussian_p_Lk_Ck", 
                                                    "Gaussian_pk_Lk_Ck"))
+    }
+    if(!isS4(models))
+    {
+      stop("models must be an S4 object!")
     }
     # check criterion parameter
     #     if( sum(criterion %in% c("BIC")) != length(criterion) ){
@@ -86,13 +84,21 @@ SelvarLearnLasso <-
     }
     
     # check whether the knownLabels is missing
-    if ( length(knownlabels) == 0 ){
+    if( missing(knownlabels)){
       stop("labels are missing!")
     }
+    
+    if(is.factor(knownlabels))
+    {
+      knownlabels <- factor(knownlabels, labels = seq(1,length(levels(knownlabels))))
+      knownlabels <- as.integer(knownlabels)
+    }
+    
     # check the number of cluster
     if (min(knownlabels) <= 0 | length(knownlabels) != nrow(data)){
       stop("Each observation in knownLabels must have a valid cluster affectation !")
     }
+   
     
     ## check dataTest and labelsTest
     if(missing(dataTest) && !missing(labelsTest))
@@ -148,10 +154,17 @@ SelvarLearnLasso <-
       model <- mixmodGaussianModel(listModels = bestModel$model)
       learn <- mixmodLearn(dataAux, knownLabels = knownlabels, models = model)
       predict <- mixmodPredict(dataTestAux, classificationRule = learn["bestResult"])
+      bestModel$proba <- predict["proba"]
+      bestModel$partition <- predict["partition"]
       bestModel$error <- 1 - mean(predict["partition"] == labelsTest)
     }
     else
-      bestModel$error <- 1 - mean(bestModel$partition == knownlabels)
+    {
+      bestModel$proba <- NULL
+      bestModel$partition <- NULL
+      bestModel$error <- NULL
+    }
+    
     
     return(bestModel)  
     

@@ -80,6 +80,10 @@ ModelSelectionClust <- function(VariableSelectRes,
     bestModel$U <- NULL
   }
   
+  if(length(bestModel$W)==0)
+    bestModel$W <- NULL
+  
+    
   
   return(bestModel)
 }

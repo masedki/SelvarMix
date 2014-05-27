@@ -5,13 +5,15 @@ Regularization for variable selection in discriminant analysis
 }
 \description{
 This function implements the variable selection in discriminant 
-analysis using a lasso ranking on the variables as described in !!!! OUR PAPER!!!.
-The variable ranking step uses the penalized EM algorithm of Zhou et al (2009) (supervised case).
-A testing data-labels sample can be used to compute the averaged classification error rates.
+analysis using a lasso ranking on the variables as described in 
+!!!! OUR PAPER!!!. The variable ranking step uses the penalized 
+EM algorithm of Zhou et al (2009) !!!ADAPTATION:: OUR PAPER!!!.
+A testing sample can be used to compute the averaged 
+classification error rate.
 }
 \usage{
-SelvarLearnLasso(data, knownlabels, lambda, rho, hybrid.size,  models, regModel, indepModel,
-                 dataTest, labelsTest)
+SelvarLearnLasso(data, knownlabels, lambda, rho, hybrid.size,  models, regModel, 
+                 indepModel, dataTest, labelsTest)
 }
 
 \arguments{
@@ -25,8 +27,7 @@ SelvarLearnLasso(data, knownlabels, lambda, rho, hybrid.size,  models, regModel,
 \item{knownlabels}{
   an integer vector or a factor of size
   number of observations. Each cell corresponds to a
-  cluster affectation. So the maximum value is the number
-  of clusters
+  cluster affectation. 
 }
 
  \item{lambda}{
@@ -36,7 +37,7 @@ SelvarLearnLasso(data, knownlabels, lambda, rho, hybrid.size,  models, regModel,
   numeric listing of tuning parameter for \eqn{\ell_1} precision matrix penalty
 }
 \item{hybrid.size}{
-optionnal parameter make less strength  the hybrid forward and backward 
+optional parameter make less strength  the hybrid forward and backward 
 algorithms to select \eqn{S} and \eqn{W} sets
 }
 
@@ -83,14 +84,13 @@ algorithms to select \eqn{S} and \eqn{W} sets
 \item{U }{The selected set of redundant variables}
 \item{W }{The selected set of independent variables}
 \item{criterionValue}{The criterion value for the selected model}
-\item{model }{The selected covariance model} %% the selected gaussian mixture form
-\item{regModel }{The  selected covariance form for the regression}
+\item{nbCluster}{The selected number of clusters}
+\item{model}{The selected covariance model} %% the selected gaussian mixture form
+\item{regModel}{The  selected covariance form for the regression}
 \item{indepModel}{The selected covariance form for the independent variables}
-
-%\item{proba }{matrix containing the conditional probabilities of belonging to each cluster for all observations}
-%\item{partition}{vector of length \emph{n} containing the cluster assignments of the \emph{n} observations according to the Maximum-a-Posteriori principle}
-
-\item{error }{error rate done by the Maximum-A-Posteriori principle}
+\item{proba}{Optional : matrix containing the conditional probabilities of belonging to each cluster for the testing observations}
+\item{partition}{Optional: vector containing the cluster assignments of the testing observations according to the Maximum-a-Posteriori rule}
+\item{error }{Optional : error rate done by the predicted partition (obtained using Maximum-A-Posteriori rule)}
 }
 
 
@@ -123,12 +123,10 @@ Mohammed Sedki <\url{mohammed.sedki@u-psud.fr}>
 }
 \examples{
 
-## Simulated data  example as shown in Celeux et al. (2014) (correlated scenario 2) 
-## n = 2000 observations, p = 14 variables 
-
+## Simulated data  example as shown in !!!OUR PAPER!!! 
 data(scenarioCor)
 
-lambda <- seq(0.1,  100, length = 50)
+lambda <- seq(0.1,  100, length = 25)
 rho <- seq(1, 2, length=2)
 hybrid.size <- 3
 models <- mixmodGaussianModel(family = "spherical", equal.proportions = TRUE)
@@ -136,16 +134,16 @@ regModel <- c("LI","LB","LC")
 indepModel <- c("LI","LB")
 
 ## variables selection in discriminant analysis
-## training sample
-data <- scenarioCor[1:1000,1:14]
-labels <-scenarioCor[1:1000,15]
+## training sample : n = 1900 observations , p = 14 variables 
+data.learn <- scenarioCor[1:1900,1:14]
+labels.learn <-scenarioCor[1:1900,15]
 
-## testing sample
-dataTest <- scenarioCor[1001:2000,1:14]
-labelsTest <-scenarioCor[1001:2000,15]
+## testing sample : n = 100 observations, p = 14 variables
+data.test <- scenarioCor[1901:2000,1:14]
+labels.test <-scenarioCor[1901:2000,15]
 
-simulate.learn <- SelvarLearnLasso(data, labels, lambda, rho, hybrid.size, models, regModel, indepModel, 
-                                   dataTest, labelsTest)
+simulate.da <- SelvarLearnLasso(data.learn, labels.learn, lambda, rho, hybrid.size, models, regModel, 
+                                indepModel, data.test, labels.test)
 
 
 

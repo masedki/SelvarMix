@@ -18,7 +18,7 @@ SortvarLearn <- function(data,
     stop(paste(sQuote("lambda"), "must be a vector with length >= 2"))
   }
   if (sum(lambda<=0)){
-    stop("lambda must greater than 0!")
+    stop("lambda must be greater than 0!")
   }
   
   
@@ -30,7 +30,7 @@ SortvarLearn <- function(data,
     stop(paste(sQuote("rho"), "must be a vector"))
   }
   if(sum(rho<=0)){
-    stop("rho must greater than 0!")
+    stop("rho must be greater than 0!")
   }
   
   

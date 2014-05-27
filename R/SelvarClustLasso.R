@@ -41,7 +41,7 @@ SelvarClustLasso <-
       stop(paste(sQuote("lambda"), "must be a vector with length >= 2!"))
     }
     if (sum(lambda<=0)){
-      stop("lambda must greater than 0!")
+      stop("lambda must be greater than 0!")
     }
     
     
@@ -53,7 +53,7 @@ SelvarClustLasso <-
       stop(paste(sQuote("rho"), "must be a vector!"))
     }
     if(sum(rho<=0)){
-      stop("rho must greater than 0!")
+      stop("rho must be greater than 0!")
     }
     
     
@@ -66,7 +66,7 @@ SelvarClustLasso <-
     
     # check criterion parameter
     if(missing(criterion)){
-     criterion <- "BIC"  
+      criterion <- "BIC"  
     }
     if( sum(criterion %in% c("BIC","ICL")) != length(criterion) ){
       stop(cat(criterion[which(!(criterion %in% c("BIC","ICL")))], "is not a valid criterion name !\n"))
@@ -74,16 +74,17 @@ SelvarClustLasso <-
     
     # check models 
     if(missing(models)){
-    ##models <- mixmodGaussianModel(family="general", free.proportions=TRUE)  
-    models <- mixmodGaussianModel(listModels = c("Gaussian_p_L_C", 
-                                                 "Gaussian_pk_L_C", 
-                                                 "Gaussian_p_Lk_C", 
-                                                 "Gaussian_p_L_Ck", 
-                                                 "Gaussian_pk_Lk_C", 
-                                                 "Gaussian_pk_L_Ck", 
-                                                 "Gaussian_p_Lk_Ck", 
-                                                 "Gaussian_pk_Lk_Ck"))
+      ##models <- mixmodGaussianModel(family="general", free.proportions=TRUE)  
+      models <- mixmodGaussianModel(listModels = c("Gaussian_pk_L_C", 
+                                                   "Gaussian_pk_Lk_C", 
+                                                   "Gaussian_pk_L_Ck", 
+                                                   "Gaussian_pk_Lk_Ck"))
     }
+    if(!isS4(models))
+    {
+      stop("models must be an S4 object!")
+    }
+    
     # check regModel
     if(missing(regModel)){
       regModel <- c("LI", "LB", "LC")
@@ -112,7 +113,7 @@ SelvarClustLasso <-
     knownlabels <- as.integer(1:n) ## une initilialisation qui ne sert qu'à créer l'objet CritClust en c++  (une autre solution à trouver !!!)
     OrderVariable <- SortvarClust(dataStand, nbCluster, lambda, rho)
     print("................. variable ranking .... done ................................ ")
-        bestModel <- list()
+    bestModel <- list()
     if(length(criterion)==1)
     {
       print(c(" ...... SRUW selection with ", criterion, " criterion ...... "))
@@ -159,6 +160,8 @@ SelvarClustLasso <-
         eval(parse(text = cmd))
       }  
     }
-return(bestModel) 
-
+    
+    
+    return(bestModel) 
+    
   }

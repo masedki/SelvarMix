@@ -5,7 +5,7 @@ Variable ranking with LASSO in discriminant analysis
 }
 \description{
 This function implements variable ranking procedure in discriminant analysis 
-using the penalized EM algorithm of Zhou et al (2009).
+using the penalized EM algorithm of Zhou et al (2009) !!!ADAPTATION::OUR PAPER!!!.
 }
 \usage{
 SortvarLearn(data, knownlabels, lambda, rho)
@@ -36,7 +36,7 @@ SortvarLearn(data, knownlabels, lambda, rho)
 %%  ~~ If necessary, more details than the description above ~~
 %}
 \value{
- vector of integers corresponding to variable raking.
+ vector of integers corresponding to variable ranking.
 }
 \references{
   Zhou, H., Pan, W., and Shen, X., 2009. "Penalized model-based 
@@ -61,20 +61,19 @@ Mohammed Sedki \email{mohammed.sedki@u-psud.fr}
 \link{SortvarClust}
 }
 \examples{
-## Simulated data  example as shown in Maugis et al. (2009)  
+## Simulated data  example as shown in !!!OUR PAPER!!!
 ## n = 2000 observations, p = 14 variables 
 
 data(scenarioCor)
 data.cor <- scenarioCor[,1:14]
 labels.cor <-scenarioCor[,15]
 
-lambda <- seq(0.1,  100, length = 50)
+lambda <- seq(0.1,  100, length = 25)
 rho <- seq(1, 2, length=2)
-nbCluster <-  4
+
 
 
 ## variable ranking in discriminant analysis 
-labels.cor <-scenarioCor[,15]
 var.ranking.learn <- SortvarLearn(data.cor, labels.cor, lambda, rho)
 }
 \keyword{Variable ranking}
