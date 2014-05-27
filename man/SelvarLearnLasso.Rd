@@ -10,8 +10,8 @@ The variable ranking step uses the penalized EM algorithm of Zhou et al (2009) (
 A testing data-labels sample can be used to compute the averaged classification error rates.
 }
 \usage{
-SelvarLearnLasso(data, lambda, rho, hybrid.size,  models, regModel, indepModel,
-                 knownlabels, dataTest, labelsTest)
+SelvarLearnLasso(data, knownlabels, lambda, rho, hybrid.size,  models, regModel, indepModel,
+                 dataTest, labelsTest)
 }
 
 \arguments{

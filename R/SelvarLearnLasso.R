@@ -123,7 +123,7 @@ SelvarLearnLasso <-
     OrderVariable <- rep(NA, p) 
     dataStand <- scale(data, TRUE, TRUE)
     print("............... start  variable  ranking .................................... ")
-    OrderVariable <- SortvarLearn(dataStand, lambda, rho, knownlabels)
+    OrderVariable <- SortvarLearn(dataStand, knownlabels, lambda, rho)
     print("................. variable ranking .... done ................................ ") 
     bestModel <- list()
     print(" ...... SRUW  selection with BIC criterion ...... ")

@@ -8,7 +8,7 @@ This function implements variable ranking procedure in discriminant analysis
 using the penalized EM algorithm of Zhou et al (2009).
 }
 \usage{
-SortvarLearn(data, lambda, rho, knownlabels)
+SortvarLearn(data, knownlabels, lambda, rho)
 }
 \arguments{
   \item{data}{
