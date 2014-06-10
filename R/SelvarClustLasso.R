@@ -80,9 +80,9 @@ SelvarClustLasso <-
                                                    "Gaussian_pk_L_Ck", 
                                                    "Gaussian_pk_Lk_Ck"))
     }
-    if(!isS4(models))
+    if(!(isS4(models) && is(models, "GaussianModel")))
     {
-      stop("models must be an S4 object!")
+      stop("models must be a GaussianModel S4 object! (see Rmixmod package)")
     }
     
     # check regModel
