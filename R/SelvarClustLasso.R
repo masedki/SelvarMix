@@ -116,7 +116,7 @@ SelvarClustLasso <-
     bestModel <- list()
     if(length(criterion)==1)
     {
-      print(c(" ...... SRUW selection with ", criterion, " criterion ...... "))
+      print(c(" ...... SRUW selection with...", criterion, "... criterion ......"))
       VariableSelectRes <- VariableSelection(data,
                                              nbCluster,
                                              models,
