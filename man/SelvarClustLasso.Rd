@@ -62,7 +62,7 @@ algorithms to select \eqn{S} and \eqn{W} sets
 }
 
 \value{ for each criterion BIC or ICL
-\item{S }{The selected set of clustering relevant variables}
+\item{S }{The selected set of relevant clustering variables}
 \item{R }{The selected subset of regressors}
 \item{U }{The selected set of redundant variables}
 \item{W }{The selected set of independent variables}
