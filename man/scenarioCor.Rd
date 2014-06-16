@@ -20,7 +20,9 @@
  data are distributed from a mixture of four equiprobable 
  spherical Gaussian distributions with means \eqn{(0,0), (4,0)
  (0,2)} and \eqn{(4,2)}. The subset of redundant variables 
- is \eqn{U =\{3-11\}}. The last three variables are independent 
+ is \eqn{U =\{3-11\}} that are explained by the subset of 
+ predictor variables \eqn{R = \{1,2\}}. 
+ The last three variables are independent 
  \eqn{W = \{11, 12, 13\}}.
  
 }

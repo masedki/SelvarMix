@@ -25,42 +25,53 @@
   selection in model-based clustering and
   discriminant analysis. It focus on model-based 
   clustering, where the clusters are assumed to 
-  arise from Gaussian distributions, which 
-  provides a rigorous and nice framework to embed 
-  the variable selection task in cluster analysis.
+  arise from Gaussian distributions. 
   The most achieved model in model-based clustering
-  has been presented in Maugis et al (2009). This model, 
-  called the \eqn{SRUW} model, is rather complete 
-  since it anticipates four different possible roles 
-  for the variables: a variable may belongs to \eqn{S} the
-  set of relevant variables for the clustering, or 
-  it may belong to \eqn{W} the set of independent varables, 
-  or it may belong to \eqn{U} the set of irrelevant variables
-  depending on a subset \eqn{R} of the relevant variables S 
-  according to a linear regression model.  This is the 
-  reason why this variable selection model has been 
-  christened the \eqn{SRUW} model. It happens that the stepwises 
-  (forward or backward) procedures to estimate the sets 
-  \eqn{S, U , W} and \eqn{R} are painfully slow when 
-  numerous variables are available. Thus there is the need 
-  for an alternative procedure to get an approximation of 
-  these sets in a reasonable CPU time.
+  has been proposed by Maugis et al (2009). This 
+  so-called \eqn{SRUW} modeling considers three roles
+  of variables: one variable my belong to the relevant 
+  clustering set \eqn{S}, the redundant variable set
+  \eqn{U} or the independent variable set \eqn{W}. 
+  Moreover, the redundant variables may be explained 
+  by a subset \eqn{R} of the relevant variables \eqn{S}.
+  In order to avoid the slow of this algorithm when data 
+  with numerous variables are studied, the SelvarMix procedure
+  is proposed. It proceeds in two steps: First, the variables
+  are ranked using a lasso-like procedure analogous to the one of 
+  Zhou et al (2009); second, the \eqn{SRUW} procedure is run 
+  on this  ranked set of  variables. 
   
-  Zhou et al (2009) proposed a different approach via regularization 
-  with no retrictive assumption on the component variance matrices. 
-  This regularization approach could be expected to be of interest 
-  in a high dimensional setting, but it only allows relevant and 
-  independent variables. 
+% , is rather complete 
+%  since it anticipates four different possible roles 
+%  for the variables: a variable may belongs to \eqn{S} the
+%  set of relevant variables for the clustering, or 
+%  it may belong to \eqn{W} the set of independent varables, 
+%  or it may belong to \eqn{U} the set of irrelevant variables
+%  depending on a subset \eqn{R} of the relevant variables S 
+%  according to a linear regression model.  This is the 
+%  reason why this variable selection model has been 
+%  christened the \eqn{SRUW} model. It happens that the stepwises 
+%  (forward or backward) procedures to estimate the sets 
+%  \eqn{S, U , W} and \eqn{R} are painfully slow when 
+%  numerous variables are available. Thus there is the need 
+%  for an alternative procedure to get an approximation of 
+%  these sets in a reasonable CPU time.
+  
+%  Zhou et al (2009) proposed a different approach via regularization 
+%  with no retrictive assumption on the component variance matrices. 
+%  This regularization approach could be expected to be of interest 
+%  in a high dimensional setting, but it only allows relevant and 
+%  independent variables. 
  
-  SelvarMix proceeds in two steps. First, we rank the variables using 
-  a procedure analogous to the procedure of Zhou et al (2009). Then the 
-  \eqn{SRUW} procedure is run on this ranked set of variables avoiding 
-  the expensive forward or backward procedures involved in the procedure 
-  of Maugis et al (2009).
+%  SelvarMix proceeds in two steps. First, we rank the variables using 
+%  a procedure analogous to the procedure of Zhou et al (2009). Then the 
+%  \eqn{SRUW} procedure is run on this ranked set of variables avoiding 
+%  the expensive forward or backward procedures involved in the procedure 
+%  of Maugis et al (2009).
 }
 \examples{
 \dontrun{
-## Simulated data  example as shown in Celeux et al. (2014) (correlated scenario 2) 
+## Simulated data  example as shown in Maugis et al. (2009) (correlated scenario 2) 
 ## n = 2000 observations, p = 14 variables 
 
 data(scenarioCor)
