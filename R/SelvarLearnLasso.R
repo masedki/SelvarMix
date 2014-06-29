@@ -127,7 +127,7 @@ SelvarLearnLasso <-
     p <- as.integer(ncol(data))
     ## on n'en a qu'un seul ordre des variables  
     OrderVariable <- rep(NA, p) 
-    dataStand <- scale(data, TRUE, TRUE)
+    dataStand <- scale(data, TRUE, FALSE)
     print("............... start  variable  ranking .................................... ")
     OrderVariable <- SortvarLearn(dataStand, knownlabels, lambda, rho)
     print("................. variable ranking .... done ................................ ") 
