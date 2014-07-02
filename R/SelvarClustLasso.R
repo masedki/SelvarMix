@@ -107,7 +107,7 @@ SelvarClustLasso <-
     p <- as.integer(ncol(data))
     nbCluster <- as.integer(nbCluster)
     OrderVariable <- matrix(NA, nrow = length(nbCluster), ncol = p) 
-    dataStand <- scale(data, TRUE, FALSE)
+    dataStand <- scale(data, TRUE, TRUE)
     print("............... start  variable  ranking .................................... ")
     supervised <- FALSE ## c'est une initialisation qui ne sert qu'à créer l'objet CritClust en c++
     knownlabels <- as.integer(1:n) ## une initilialisation qui ne sert qu'à créer l'objet CritClust en c++  (une autre solution à trouver !!!)
