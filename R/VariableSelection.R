@@ -97,29 +97,32 @@ VariableSelection<-
     junk <- parRapply(cl, x=arg.grid, FUN = wrapper.selectVar)
     stopCluster(cl)
     
-    ##Préparer le stockage
-    VariableSelectRes <-  vector(length = OutputVector.size, mode ="list")
+    
+    
+    ## je vais compter le nombre d'échecs 
+    nb.fails <- 0 
     for(idx in 1:OutputVector.size)
-    {
-      if(class(junk[[idx]])!="try-error")
+      if(class(junk[[idx]]) == "try-error")
+        nb.fails <- nb.fails + 1
+        
+    ##Préparer le stockage
+    VariableSelectRes <-  vector(length = (OutputVector.size - nb.fails), mode ="list")
+    
+    idx <- 1
+    for(ll in 1:OutputVector.size)
+      if(class(junk[[ll]])!="try-error")
       {
-        VariableSelectRes[[idx]]$S <- sort(junk[[idx]]$S)
-        VariableSelectRes[[idx]]$W <- sort(junk[[idx]]$W)
-        VariableSelectRes[[idx]]$U <- setdiff(1:dim(data)[2], union(junk[[idx]]$S, junk[[idx]]$W))
-        VariableSelectRes[[idx]]$criterionValue <- junk[[idx]]$criterionValue
-        VariableSelectRes[[idx]]$criterion <- junk[[idx]]$criterion 
-        VariableSelectRes[[idx]]$model <- junk[[idx]]$model
-        VariableSelectRes[[idx]]$nbCluster <- junk[[idx]]$nbCluster
-        VariableSelectRes[[idx]]$partition <- junk[[idx]]$partition
-        VariableSelectRes[[idx]]$proba <- junk[[idx]]$proba
+        VariableSelectRes[[idx]]$S <- sort(junk[[ll]]$S)
+        VariableSelectRes[[idx]]$W <- sort(junk[[ll]]$W)
+        VariableSelectRes[[idx]]$U <- setdiff(1:dim(data)[2], union(junk[[ll]]$S, junk[[ll]]$W))
+        VariableSelectRes[[idx]]$criterionValue <- junk[[ll]]$criterionValue
+        VariableSelectRes[[idx]]$criterion <- junk[[ll]]$criterion 
+        VariableSelectRes[[idx]]$model <- junk[[ll]]$model
+        VariableSelectRes[[idx]]$nbCluster <- junk[[ll]]$nbCluster
+        VariableSelectRes[[idx]]$partition <- junk[[ll]]$partition
+        VariableSelectRes[[idx]]$proba <- junk[[ll]]$proba
+        idx <- idx + 1
       }
-      else
-        VariableSelectRes[[idx]] <- junk[[idx]]  
-    }
-    
-    
-    
-    
     
     return(VariableSelectRes)  
   }
