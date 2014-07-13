@@ -13,7 +13,7 @@ List rcppSelectS(NumericMatrix X, std::vector<int> Order, const int nbCluster, S
     vector<int> varSelectClust;
     CritClust b(nbCluster, CovForm, X, Crit, knownlabels, as<bool>(DA));
     Select s(v,b,sReg, packSize);
-    return s.selectS(Order);
+    return wrap(s.selectS(Order));
 }
 
 

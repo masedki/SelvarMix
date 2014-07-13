@@ -112,15 +112,15 @@ VariableSelection<-
     for(ll in 1:OutputVector.size)
       if(class(junk[[ll]])!="try-error")
       {
-        VariableSelectRes[[idx]]$S <- sort(junk[[ll]]$S)
-        VariableSelectRes[[idx]]$W <- sort(junk[[ll]]$W)
-        VariableSelectRes[[idx]]$U <- setdiff(1:dim(data)[2], union(junk[[ll]]$S, junk[[ll]]$W))
-        VariableSelectRes[[idx]]$criterionValue <- junk[[ll]]$criterionValue
-        VariableSelectRes[[idx]]$criterion <- junk[[ll]]$criterion 
-        VariableSelectRes[[idx]]$model <- junk[[ll]]$model
-        VariableSelectRes[[idx]]$nbCluster <- junk[[ll]]$nbCluster
-        VariableSelectRes[[idx]]$partition <- junk[[ll]]$partition
-        VariableSelectRes[[idx]]$proba <- junk[[ll]]$proba
+        VariableSelectRes[[idx]]$S <- sort(junk[[ll]][["S"]])
+        VariableSelectRes[[idx]]$W <- sort(junk[[ll]][["W"]])
+        VariableSelectRes[[idx]]$U <- setdiff(1:dim(data)[2], union(junk[[ll]][["S"]], junk[[ll]][["W"]]))
+        VariableSelectRes[[idx]]$criterionValue <- junk[[ll]][["criterionValue"]]
+        VariableSelectRes[[idx]]$criterion <- junk[[ll]][["criterion"]] 
+        VariableSelectRes[[idx]]$model <- junk[[ll]][["model"]]
+        VariableSelectRes[[idx]]$nbCluster <- junk[[ll]][["nbCluster"]]
+        VariableSelectRes[[idx]]$partition <- junk[[ll]][["partition"]]
+        VariableSelectRes[[idx]]$proba <- junk[[ll]][["proba"]]
         idx <- idx + 1
       }
     
