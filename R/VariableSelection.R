@@ -58,7 +58,7 @@ VariableSelection<-
     else 
     {
       if(OutputVector.size < nb.cpus)
-        nb.cores <- OutVector.size
+        nb.cores <- OutputVector.size
       else
         nb.cores <- nb.cpus - 1
       
