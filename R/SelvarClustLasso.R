@@ -125,7 +125,8 @@ SelvarClustLasso <-
                                              hybrid.size,
                                              supervised,
                                              knownlabels)## ici les deux derniers arguements ne jouent qu'un rôle de création d'objet c++
-      if(criterion=="BIC"){
+    
+     if(criterion=="BIC"){
         print(" ..... model selection  with BIC criterion...... ")
         bestModel$BIC <- ModelSelectionClust(VariableSelectRes,
                                              data,
