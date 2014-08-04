@@ -125,7 +125,7 @@ Mohammed Sedki <\url{mohammed.sedki@u-psud.fr}>
 }
 \examples{
 
-## Simulated data  example as shown in !!!OUR PAPER!!! 
+## Simulated data  example as shown in Sedki et al (2014)
 data(scenarioCor)
 
 lambda <- seq(0.1,  100, length = 25)

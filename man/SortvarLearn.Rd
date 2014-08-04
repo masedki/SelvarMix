@@ -69,7 +69,7 @@ Mohammed Sedki \email{mohammed.sedki@u-psud.fr}
 \link{SortvarClust}
 }
 \examples{
-## Simulated data  example as shown in !!!OUR PAPER!!!
+## Simulated data  example as shown in Sedki et al (2014)
 ## n = 2000 observations, p = 14 variables 
 
 data(scenarioCor)
