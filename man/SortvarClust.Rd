@@ -48,6 +48,12 @@ SortvarClust(data, nbCluster, lambda, rho)
   "Variable selection in model-based clustering: 
   A general variable role modeling". Computational 
   Statistics and Data Analysis, vol. 53/11, pp. 3872-3882.
+  
+  Sedki, M., Celeux, G., Maugis-Rabusseau, C., 2014. 
+  "SelvarMix: A R package for variable selection in 
+  model-based clustering and discriminant analysis with 
+  a regularization approach". Inria Research Report  
+  available at \url{http://hal.inria.fr/hal-01053784}
 }
 \author{
 Mohammed Sedki <mohammed.sedki@u-psud.fr>

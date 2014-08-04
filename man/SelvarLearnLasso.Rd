@@ -6,8 +6,9 @@ Regularization for variable selection in discriminant analysis
 \description{
 This function implements the variable selection in discriminant 
 analysis using a lasso ranking on the variables as described in 
-!!!! OUR PAPER!!!. The variable ranking step uses the penalized 
-EM algorithm of Zhou et al (2009) !!!ADAPTATION:: OUR PAPER!!!.
+Sedki et al (2014). The variable ranking step uses the penalized 
+EM algorithm of Zhou et al (2009) (adapted in Sedki et al (2014) for the 
+discriminant analysis settings).
 A testing sample can be used to compute the averaged 
 classification error rate.
 }
@@ -106,12 +107,13 @@ Mohammed Sedki <\url{mohammed.sedki@u-psud.fr}>
   "Variable selection in model-based clustering: 
   A general variable role modeling". Computational 
   Statistics and Data Analysis, vol. 53/11, pp. 3872-3882.
-
-  % Celeux, G., Martin-Magniette, M. L., Maugis, C., and Raftery, A. E., 2014. 
-  %"Comparing Model Selection and Regularization Approaches to Variable
-  % Selection in Model-Based Clustering". Journal de la Soci\'et\'e Fran\,caise
-  % de Statistique, vol. 155/2, pp. 57-71.
-
+ 
+ 
+  Sedki, M., Celeux, G., Maugis-Rabusseau, C., 2014. 
+  "SelvarMix: A R package for variable selection in 
+  model-based clustering and discriminant analysis with 
+  a regularization approach". Inria Research Report 
+  available at \url{http://hal.inria.fr/hal-01053784}
 }
 
 \keyword{discriminant analysis, variable selection, lasso ranking and graphical lasso}

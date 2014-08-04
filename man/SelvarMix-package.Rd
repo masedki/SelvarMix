@@ -41,33 +41,7 @@
   Zhou et al (2009); second, the \eqn{SRUW} procedure is run 
   on this  ranked set of  variables. 
   
-% , is rather complete 
-%  since it anticipates four different possible roles 
-%  for the variables: a variable may belongs to \eqn{S} the
-%  set of relevant variables for the clustering, or 
-%  it may belong to \eqn{W} the set of independent varables, 
-%  or it may belong to \eqn{U} the set of irrelevant variables
-%  depending on a subset \eqn{R} of the relevant variables S 
-%  according to a linear regression model.  This is the 
-%  reason why this variable selection model has been 
-%  christened the \eqn{SRUW} model. It happens that the stepwises 
-%  (forward or backward) procedures to estimate the sets 
-%  \eqn{S, U , W} and \eqn{R} are painfully slow when 
-%  numerous variables are available. Thus there is the need 
-%  for an alternative procedure to get an approximation of 
-%  these sets in a reasonable CPU time.
-  
-%  Zhou et al (2009) proposed a different approach via regularization 
-%  with no retrictive assumption on the component variance matrices. 
-%  This regularization approach could be expected to be of interest 
-%  in a high dimensional setting, but it only allows relevant and 
-%  independent variables. 
- 
-%  SelvarMix proceeds in two steps. First, we rank the variables using 
-%  a procedure analogous to the procedure of Zhou et al (2009). Then the 
-%  \eqn{SRUW} procedure is run on this ranked set of variables avoiding 
-%  the expensive forward or backward procedures involved in the procedure 
-%  of Maugis et al (2009).
+
 }
 \examples{
 \dontrun{
@@ -124,6 +98,12 @@ simulate.da <- SelvarLearnLasso(data.learn, labels.learn, lambda, rho, hybrid.si
   Zhou, H., Pan, W., and Shen, X., 2009. "Penalized model-based 
   clustering with unconstrained covariance matrices". 
   Electronic Journal of Statistics, vol. 3, pp.1473-1496.
+  
+  Sedki, M., Celeux, G., Maugis-Rabusseau, C., 2014. 
+  "SelvarMix: A R package for variable selection in 
+  model-based clustering and discriminant analysis with 
+  a regularization approach". Inria Research Report 
+  available at \url{http://hal.inria.fr/hal-01053784}
 
 }
 \keyword{package}

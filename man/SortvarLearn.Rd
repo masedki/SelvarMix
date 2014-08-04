@@ -5,7 +5,8 @@ Variable ranking with LASSO in discriminant analysis
 }
 \description{
 This function implements variable ranking procedure in discriminant analysis 
-using the penalized EM algorithm of Zhou et al (2009) !!!ADAPTATION::OUR PAPER!!!.
+using the penalized EM algorithm of Zhou et al (2009) (adapted in Sedki et al (2014) 
+for the discriminant analysis settings).
 }
 \usage{
 SortvarLearn(data, knownlabels, lambda, rho)
@@ -47,6 +48,13 @@ SortvarLearn(data, knownlabels, lambda, rho)
   "Variable selection in model-based clustering: 
   A general variable role modeling". Computational 
   Statistics and Data Analysis, vol. 53/11, pp. 3872-3882.
+  
+  Sedki, M., Celeux, G., Maugis-Rabusseau, C., 2014. 
+  "SelvarMix: A R package for variable selection in 
+  model-based clustering and discriminant analysis with 
+  a regularization approach". Inria Research Report 
+  available at \url{http://hal.inria.fr/hal-01053784}
+ 
 }
 \author{
 Mohammed Sedki \email{mohammed.sedki@u-psud.fr}
