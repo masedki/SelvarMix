@@ -64,7 +64,7 @@ List CritClust::ClustBestModel(vector<int> numExp)
          NumericVector critvalues(bestResult.slot("criterionValue"));
          return List::create(Named("criterionValue") = -critvalues[0],
                              Named("model") = bestResult.slot("model"),
-                             Named("proba") = R_NilValue, 
+                             Named("proba") = 0, 
                              Named("criterion") = "BIC",
                              Named("nbCluster") = bestResult.slot("nbCluster"),
                              Named("partition") = bestResult.slot("partition"));
