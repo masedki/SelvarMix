@@ -42,11 +42,24 @@ ModelSelectionClust <- function(VariableSelectRes,
       
     }
     
-    junk <- mclapply(X = as.integer(1:mylist.size), 
-                     FUN = wrapper.rcppCrit,
-                     mc.cores = nb.cores,
-                     mc.preschedule = TRUE,
-                     mc.cleanup = TRUE)
+    ## si on est sous windows 
+    if(Sys.info()["sysname"] == "Windows")
+    {
+      cl <- makeCluster(nb.cores)
+      common.objects <- c("data", "VariableSelectRes", "regModel", "indepModel")
+      clusterExport(cl=cl, varlist = common.objects, envir = environment())
+      junk <- clusterApply(cl, 
+                           x = as.integer(1:mylist.size), 
+                           fun = wrapper.rcppCrit)
+      stopCluster(cl)
+      
+    }
+    else
+      junk <- mclapply(X = as.integer(1:mylist.size), 
+                       FUN = wrapper.rcppCrit,
+                       mc.cores = nb.cores,
+                       mc.preschedule = TRUE,
+                       mc.cleanup = TRUE)
   } 
   
   

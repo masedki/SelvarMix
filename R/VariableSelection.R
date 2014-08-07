@@ -63,17 +63,39 @@ VariableSelection<-
         nb.cores <- nb.cpus - 1
       
     }
-    
     arg.grid <- matrix(0, OutputVector.size, 2)  
     arg.grid <- as.matrix(expand.grid(1:nbCluster.size, 1:listModels.size))
     colnames(arg.grid) <- NULL
     arg.grid.list <- list(); arg.grid.list <- as.list(data.frame(t(arg.grid)))
-    junk <- mclapply(X = arg.grid.list, 
-                     FUN = wrapper.selectVar,
-                     mc.cores = nb.cores,
-                     mc.silent = FALSE,
-                     mc.preschedule = TRUE,
-                     mc.cleanup = TRUE)
+    
+    ## si on est sous windows
+    if(Sys.info()["sysname"] == "Windows")
+    {
+      cl <- makeCluster(nb.cores)
+      clusterEvalQ(cl, require(Rmixmod))
+      common.objects <- c("data", 
+                          "OrderVariable", 
+                          "nbCluster",
+                          "models",
+                          "hybrid.size", 
+                          "criterion",
+                          "supervised",
+                          "knownlabels")
+      clusterExport(cl=cl, varlist = common.objects, envir = environment())
+      junk <- parLapply(cl = cl,  
+                        X = arg.grid.list, 
+                        fun = wrapper.selectVar)
+      stopCluster(cl)
+      
+    }
+    else
+      junk <- mclapply(X = arg.grid.list, 
+                       FUN = wrapper.selectVar,
+                       mc.cores = nb.cores,
+                       mc.silent = FALSE,
+                       mc.preschedule = TRUE,
+                       mc.cleanup = TRUE)
+    
     
     ## je vais compter le nombre d'échecs 
     nb.fails <- 0 

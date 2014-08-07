@@ -31,6 +31,20 @@ DiscriminantAnalysisGlasso <- function(data,
   pen.grid <- as.matrix(expand.grid(lambda, rho))
   pen.grid.list <- list(); colnames(pen.grid) <- NULL
   pen.grid.list <- as.list(data.frame(t(pen.grid)))
+  
+  ## si on est sous windows
+  if(Sys.info()["sysname"] == "Windows")
+  {
+    cl <- makeCluster(nb.cores)
+    clusterEvalQ(cl, require(glasso))
+    common.objects <- c("data", "nbCluster", "knownlabels") 
+    clusterExport(cl=cl, varlist = common.objects, envir = environment())
+    parallel.varrole <-  parLapply(cl = cl, 
+                                   X = pen.grid.list, 
+                                   fun = wrapper.DiscriminantAnalysisGlasso)
+    stopCluster(cl)
+  }
+  else
   parallel.varrole <-  mclapply(X = pen.grid.list, 
                                 FUN = wrapper.DiscriminantAnalysisGlasso,
                                 mc.cores = nb.cores,

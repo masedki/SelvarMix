@@ -7,5 +7,5 @@ Author:  Mohammed Sedki, Gilles Celeux, Cathy Maugis-Rabusseau
 Maintainer: Mohammed Sedki <mohammed.sedki@u-psud.fr>
 Description: Regularization for variable selection in model-based clustering and discriminant analysis
 License: GPL (>= 3)
-Depends: Rcpp (>= 0.11.1), glasso, parallel, Rmixmod
+Depends: Rcpp (>= 0.11.1), RcppArmadillo, glasso, parallel, Rmixmod
 LinkingTo: Rcpp, RcppArmadillo
