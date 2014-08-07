@@ -76,7 +76,7 @@ data(scenarioCor)
 data.cor <- scenarioCor[,1:14]
 labels.cor <-scenarioCor[,15]
 
-lambda <- seq(0.1,  100, length = 25)
+lambda <- seq(20,  50, length = 10)
 rho <- seq(1, 2, length=2)
 
 

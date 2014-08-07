@@ -126,9 +126,10 @@ Mohammed Sedki <\url{mohammed.sedki@u-psud.fr}>
 \examples{
 
 ## Simulated data  example as shown in Sedki et al (2014)
+require(Rmixmod)
 data(scenarioCor)
 
-lambda <- seq(0.1,  100, length = 25)
+lambda <- seq(20,  50, length = 10)
 rho <- seq(1, 2, length=2)
 hybrid.size <- 3
 models <- mixmodGaussianModel(family = "spherical", equal.proportions = TRUE)

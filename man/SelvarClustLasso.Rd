@@ -107,11 +107,11 @@ Mohammed Sedki <\url{mohammed.sedki@u-psud.fr}>
 \examples{
 ## Simulated data  example as shown in Maugis et al. (2009) 
 ## n = 2000 observations, p = 14 variables 
-
+require(Rmixmod)
 data(scenarioCor)
 data.cor <- scenarioCor[,1:14]
 
-lambda <- seq(0.1,  100, length = 25)
+lambda <- seq(20,  100, by = 10)
 rho <- seq(1, 2, length=2)
 hybrid.size <- 3
 nbCluster <-  c(3,4)

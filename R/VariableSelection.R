@@ -72,7 +72,6 @@ VariableSelection<-
     if(Sys.info()["sysname"] == "Windows")
     {
       cl <- makeCluster(nb.cores)
-      clusterEvalQ(cl, require(Rmixmod))
       common.objects <- c("data", 
                           "OrderVariable", 
                           "nbCluster",
@@ -80,7 +79,9 @@ VariableSelection<-
                           "hybrid.size", 
                           "criterion",
                           "supervised",
-                          "knownlabels")
+                          "knownlabels",
+                          "mixmodCluster",
+                          "mixmodLearn")
       clusterExport(cl=cl, varlist = common.objects, envir = environment())
       junk <- parLapply(cl = cl,  
                         X = arg.grid.list, 

@@ -47,13 +47,13 @@
 \dontrun{
 ## Simulated data  example as shown in Maugis et al. (2009) (correlated scenario 2) 
 ## n = 2000 observations, p = 14 variables 
-
+require(Rmixmod)
 data(scenarioCor)
 data.cor <- scenarioCor[,1:14]
 labels.cor <-scenarioCor[,15]
 
 
-lambda <- seq(0.1,  100, length = 50)
+lambda <- seq(20,  100, by = 10)
 rho <- seq(1, 2, length=2)
 hybrid.size <- 3
 models <- mixmodGaussianModel(family = "spherical", equal.proportions = TRUE)
@@ -76,6 +76,8 @@ labels.learn <-scenarioCor[1:1900,15]
 ## testing sample : n = 100, p = 14 variables
 data.test <- scenarioCor[1901:2000,1:14]
 labels.test <-scenarioCor[1901:2000,15]
+
+lambda <- seq(20,  50, length = 10)
 
 simulate.da <- SelvarLearnLasso(data.learn, labels.learn, lambda, rho, hybrid.size, models, regModel, 
                                 indepModel, data.test, labels.test)
