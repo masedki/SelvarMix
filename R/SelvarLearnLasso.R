@@ -11,7 +11,8 @@ SelvarLearnLasso <-
            regModel,
            indepModel,
            dataTest,
-           labelsTest)
+           labelsTest, 
+           nbCores)
   {
     
     # check data parameter
@@ -115,6 +116,20 @@ SelvarLearnLasso <-
     if(missing(dataTest) && missing(labelsTest))
       testing <- FALSE
     
+    # check nbCores 
+    nb.cpus <- detectCores(all.tests = FALSE, logical = FALSE)
+    if(missing(nbCores) && (nb.cpus > 1))
+      nbCores <- 2
+    if(missing(nbCores) && (nb.cpus == 1))
+      nbCores <- 1
+    if(!missing(nbCores))
+    {
+      if((nbCores < nb.cpus) && nb.cpus < 10)
+        nbCores <- nb.cpus
+      if((nbCores < nb.cpus) && nb.cpus >= 10)
+        nbCores <- nb.cpus - 2
+    }
+    
     ## on est supervisé donc on initialiser supervised à TRUE.
     supervised <- TRUE
     ## On ne fournit pas ici le paramètre nbCluster  
@@ -129,7 +144,7 @@ SelvarLearnLasso <-
     OrderVariable <- rep(NA, p) 
     dataStand <- scale(data, TRUE, TRUE)
     print("............... start  variable  ranking .................................... ")
-    OrderVariable <- SortvarLearn(dataStand, knownlabels, lambda, rho)
+    OrderVariable <- SortvarLearn(dataStand, knownlabels, lambda, rho, nbCores)
     print("................. variable ranking .... done ................................ ") 
     bestModel <- list()
     print(" ...... SRUW  selection with BIC criterion ...... ")
@@ -140,12 +155,14 @@ SelvarLearnLasso <-
                                            OrderVariable,
                                            hybrid.size,
                                            supervised,
-                                           knownlabels)## ici les deux derniers arguements ne jouent qu'un rôle de création d'objet c++
+                                           knownlabels,
+                                           nbCores)## ici les deux derniers arguements ne jouent qu'un rôle de création d'objet c++
     print(" ...... model selection with BIC criterion......")
     bestModel <- ModelSelectionClust(VariableSelectRes,
                                      data,
                                      regModel,
-                                     indepModel)
+                                     indepModel,
+                                     nbCores)
     ## ajout du calcul du taux de mauvais classement une fois le meilleur modèle est sélectionné
     if(testing)
     {

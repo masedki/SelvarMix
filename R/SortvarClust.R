@@ -1,7 +1,8 @@
 SortvarClust <- function(data,
                          nbCluster,
                          lambda,
-                         rho)
+                         rho,
+                         nbCores)
 {
   # check data parameter
   if(missing(data)){
@@ -45,7 +46,20 @@ SortvarClust <- function(data,
   if(sum(rho<=0)){
     stop("rho must be greater than 0!")
   }
-  
+ 
+  # check nbCores 
+  nb.cpus <- detectCores(all.tests = FALSE, logical = FALSE)
+  if(missing(nbCores) && (nb.cpus > 1))
+    nbCores <- 2
+  if(missing(nbCores) && (nb.cpus == 1))
+    nbCores <- 1
+  if(!missing(nbCores))
+  {
+    if((nbCores < nb.cpus) && nb.cpus < 10)
+      nbCores <- nb.cpus
+    if((nbCores < nb.cpus) && nb.cpus >= 10)
+      nbCores <- nb.cpus - 2
+  }
   
   data <- as.matrix(scale(data, TRUE, TRUE))
   n <- as.integer(nrow(data))
@@ -54,7 +68,7 @@ SortvarClust <- function(data,
   
   
   VarRole <- array(NA,dim=c((length(lambda)*length(rho)), p, length(nbCluster))) 
-  VarRole <- ClusteringEMGlasso(data,nbCluster,lambda,rho)
+  VarRole <- ClusteringEMGlasso(data,nbCluster,lambda,rho, nbCores)
   ## Calcul de la matrice O de taille length(nCluster) * p
   Matrix0 <- matrix(0, nrow=length(nbCluster), ncol=p)
   for (k in 1:length(nbCluster))

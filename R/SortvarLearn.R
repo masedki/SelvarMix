@@ -1,7 +1,8 @@
 SortvarLearn <- function(data,
                          knownlabels,
                          lambda,
-                         rho)
+                         rho,
+                         nbCores)
 {
   # check data parameter
   if(missing(data)){
@@ -51,6 +52,19 @@ SortvarLearn <- function(data,
     stop("Each observation in knownLabels must have a valid cluster affectation !")
   }
   
+  # check nbCores 
+  nb.cpus <- detectCores(all.tests = FALSE, logical = FALSE)
+  if(missing(nbCores) && (nb.cpus > 1))
+    nbCores <- 2
+  if(missing(nbCores) && (nb.cpus == 1))
+    nbCores <- 1
+  if(!missing(nbCores))
+  {
+    if((nbCores < nb.cpus) && nb.cpus < 10)
+      nbCores <- nb.cpus
+    if((nbCores < nb.cpus) && nb.cpus >= 10)
+      nbCores <- nb.cpus - 2
+  }
   
   data <- as.matrix(scale(data, TRUE, TRUE))
   n <- as.integer(nrow(data))
@@ -58,7 +72,7 @@ SortvarLearn <- function(data,
   nbCluster <- as.integer(max(knownlabels))
   
   VarRole <- matrix(NA,(length(lambda)*length(rho)), p) 
-  VarRole <- DiscriminantAnalysisGlasso(data, nbCluster, lambda, rho, knownlabels = knownlabels)
+  VarRole <- DiscriminantAnalysisGlasso(data, nbCluster, lambda, rho, knownlabels = knownlabels, nbCores)
   var.role.sum <- colSums(VarRole) 
   OrderVariable <- sort.int(var.role.sum,decreasing=TRUE,index.return=TRUE)$ix
   

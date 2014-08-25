@@ -2,24 +2,17 @@ DiscriminantAnalysisGlasso <- function(data,
                                        nbCluster, 
                                        lambda, 
                                        rho,
-                                       parallel = TRUE,
-                                       knownlabels = NULL){
+                                       knownlabels,
+                                       nbCores)
+  {
   data <- as.matrix(data)
   n <- as.integer(dim(data)[1])
   p <- as.integer(dim(data)[2])
   nbCluster <- as.integer(nbCluster)
-  nb.cpus <- detectCores(all.tests = FALSE, logical = FALSE)
-  nb.cores <- NA
-  if(nb.cpus == 1 || nb.cpus == 2)
-    nb.cores <- nb.cpus
-  else
-  {
-    if((length(lambda)*length(rho)) < nb.cpus)
-      nb.cores <- (length(lambda)*length(rho))
-    else
-      nb.cores <- nb.cpus - 1 
-  }
-    
+  
+  if((length(lambda)*length(rho)) < nbCores)
+    nbCores <- (length(lambda)*length(rho))
+  
   
   wrapper.DiscriminantAnalysisGlasso <- function(prm)
   {
@@ -35,7 +28,7 @@ DiscriminantAnalysisGlasso <- function(data,
   ## si on est sous windows
   if(Sys.info()["sysname"] == "Windows")
   {
-    cl <- makeCluster(nb.cores)
+    cl <- makeCluster(nbCores)
     common.objects <- c("data", "nbCluster", "knownlabels", "glasso") 
     clusterExport(cl=cl, varlist = common.objects, envir = environment())
     parallel.varrole <-  parLapply(cl = cl, 
@@ -46,7 +39,7 @@ DiscriminantAnalysisGlasso <- function(data,
   else
   parallel.varrole <-  mclapply(X = pen.grid.list, 
                                 FUN = wrapper.DiscriminantAnalysisGlasso,
-                                mc.cores = nb.cores,
+                                mc.cores = nbCores,
                                 mc.preschedule = TRUE,
                                 mc.cleanup = TRUE )
  

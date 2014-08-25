@@ -9,7 +9,7 @@ using the penalized EM algorithm of Zhou et al (2009) (adapted in Sedki et al (2
 for the discriminant analysis settings).
 }
 \usage{
-SortvarLearn(data, knownlabels, lambda, rho)
+SortvarLearn(data, knownlabels, lambda, rho, nbCores)
 }
 \arguments{
   \item{data}{
@@ -31,7 +31,10 @@ SortvarLearn(data, knownlabels, lambda, rho)
   \item{rho}{
   numeric listing of tuning parameter for \eqn{\ell_1} precision matrix penalty
 }
-  
+
+\item{nbCores}{
+  number of CPUs to be used when parallel computing is utilized
+  }
 }
 %\details{
 %%  ~~ If necessary, more details than the description above ~~

@@ -9,7 +9,7 @@ This function implements variable ranking procedure in model-based clustering
 using the penalized EM algorithm of Zhou et al (2009).
 }
 \usage{
-SortvarClust(data, nbCluster, lambda, rho)
+SortvarClust(data, nbCluster, lambda, rho, nbCores)
 }
 \arguments{
   \item{data}{
@@ -31,6 +31,9 @@ SortvarClust(data, nbCluster, lambda, rho)
   numeric listing of the tuning parameter for \eqn{\ell_1} precision matrix penalty
   }
 
+  \item{nbCores}{
+  number of CPUs to be used when parallel computing is utilized
+  }
 }
 %\details{
 %%  ~~ If necessary, more details than the description above ~~

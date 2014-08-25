@@ -2,28 +2,21 @@ ClusteringEMGlasso <- function(data,
                                nbCluster, 
                                lambda, 
                                rho,
-                               parallel = TRUE){
+                               nbCores)
+{
   data <- as.matrix(data)
   n <- as.integer(dim(data)[1])
   p <- as.integer(dim(data)[2])
   nbCluster <- as.integer(nbCluster)
   
-  nb.cpus <- detectCores(all.tests = FALSE, logical = FALSE)
-  nb.cores <- NA
-  if(nb.cpus == 1 || nb.cpus == 2)
-    nb.cores <- nb.cpus
-  else{
-    if((length(lambda)*length(rho)) < nb.cpus)
-    {
-      nb.cores <- (length(lambda)*length(rho))
-    }
-    else{
-      nb.cores <- nb.cpus - 1
-    }
-  }
-  ## si on est sous windows 
+  
+  if((length(lambda)*length(rho)) < nbCores)
+    nbCores <- (length(lambda)*length(rho))
+  
+  
+  # si on est sous windows 
   if(Sys.info()["sysname"] == "Windows")
-    cl <- makeCluster(nb.cores)
+    cl <- makeCluster(nbCores)
   
   if(length(nbCluster) == 1)
     
@@ -40,7 +33,7 @@ ClusteringEMGlasso <- function(data,
     else
       junk <- mclapply(X = as.integer(nbCluster), 
                        FUN = wrapper.init.parameter, 
-                       mc.cores = nb.cores,
+                       mc.cores = nbCores,
                        mc.preschedule = TRUE,
                        mc.cleanup = TRUE)
     
@@ -78,7 +71,7 @@ ClusteringEMGlasso <- function(data,
     else
       parallel.varrole[[1]] <-  mclapply(X = pen.grid.list, 
                                          FUN = wrapper.clusteringEMGlasso,
-                                         mc.cores = nb.cores,
+                                         mc.cores = nbCores,
                                          mc.preschedule = TRUE,
                                          mc.cleanup = TRUE)
   }
@@ -97,7 +90,7 @@ ClusteringEMGlasso <- function(data,
       else
         parallel.varrole[[k]] <- mclapply(X = pen.grid.list, 
                                           FUN = wrapper.clusteringEMGlasso,
-                                          mc.cores = nb.cores,
+                                          mc.cores = nbCores,
                                           mc.preschedule = TRUE,
                                           mc.cleanup = TRUE)
     } 

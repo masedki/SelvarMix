@@ -13,8 +13,8 @@ A testing sample can be used to compute the averaged
 classification error rate.
 }
 \usage{
-SelvarLearnLasso(data, knownlabels, lambda, rho, hybrid.size,  models, regModel, 
-                 indepModel, dataTest, labelsTest)
+SelvarLearnLasso(data, knownlabels, lambda, rho, hybrid.size,  models, 
+                 regModel, indepModel, dataTest, labelsTest, nbCores)
 }
 
 \arguments{
@@ -28,7 +28,7 @@ SelvarLearnLasso(data, knownlabels, lambda, rho, hybrid.size,  models, regModel,
 \item{knownlabels}{
   an integer vector or a factor of size
   number of observations. Each cell corresponds to a
-  cluster affectation. 
+  cluster affectation 
 }
 
  \item{lambda}{
@@ -69,12 +69,16 @@ algorithms to select \eqn{S} and \eqn{W} sets
 
 \item{dataTest}{matrix  containing quantitative testing data. 
   Rows correspond to observations and
-  columns correspond to variables. 
+  columns correspond to variables 
 }
 \item{labelsTest}{
   an integer vector or a factor of size
   number of testing observations. Each cell corresponds to a
-  cluster affectation. 
+  cluster affectation
+}
+
+\item{nbCores}{
+number of CPUs to be used when parallel computing is utilized
 }
 }
 
@@ -145,8 +149,8 @@ labels.learn <-scenarioCor[1:1900,15]
 data.test <- scenarioCor[1901:2000,1:14]
 labels.test <-scenarioCor[1901:2000,15]
 
-simulate.da <- SelvarLearnLasso(data.learn, labels.learn, lambda, rho, hybrid.size, models, regModel, 
-                                indepModel, data.test, labels.test)
+simulate.da <- SelvarLearnLasso(data.learn, labels.learn, lambda, rho, hybrid.size, 
+                                models, regModel, indepModel, data.test, labels.test)
 
 
 

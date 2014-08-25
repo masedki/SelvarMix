@@ -9,8 +9,8 @@ using a lasso ranking on the variables as described in Sedki et al (2014).
 The variable ranking step uses the penalized EM algorithm of Zhou et al (2009).
 }
 \usage{
-SelvarClustLasso(data, nbCluster, lambda, rho, hybrid.size,  criterion, models, 
-                 regModel, indepModel)
+SelvarClustLasso(data, nbCluster, lambda, rho, hybrid.size, criterion, 
+                 models, regModel, indepModel, nbCores)
 }
 
 \arguments{
@@ -59,6 +59,9 @@ algorithms to select \eqn{S} and \eqn{W} sets
   form and "LB" for diagonal form. Possible values: "LI", "LB", c("LI", "LB"). 
   Default is c("LI", LB")}
 
+\item{nbCores}{
+  number of CPUs to be used when parallel computing is utilized
+  }
 }
 
 \value{ for each criterion BIC or ICL
@@ -121,7 +124,7 @@ regModel <- c("LI","LB","LC")
 indepModel <- c("LI","LB")
 
 
-simulate.clust  <- SelvarClustLasso(data.cor, nbCluster, lambda, rho, hybrid.size, criterion, models, 
-                                    regModel, indepModel)
+simulate.cl <- SelvarClustLasso(data.cor, nbCluster, lambda, rho, hybrid.size, 
+                                criterion, models, regModel, indepModel)
  
 }

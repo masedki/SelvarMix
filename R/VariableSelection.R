@@ -9,7 +9,8 @@ VariableSelection<-
            OrderVariable,
            hybrid.size,
            supervised,
-           knownlabels)
+           knownlabels,
+           nbCores)
   {
     data <- as.matrix(data)
     nbCluster <- as.integer(nbCluster)
@@ -51,18 +52,10 @@ VariableSelection<-
       ResSelectVar$W <- rcppSelectW(data, OrderAux, ResSelectVar$S, hybrid.size)
       return(ResSelectVar)
     }
-    nb.cpus <- detectCores(all.tests = FALSE, logical = FALSE)
-    nb.cores <- NA
-    if(nb.cpus == 1 || nb.cpus == 2)
-      nb.cores <- nb.cpus
-    else 
-    {
-      if(OutputVector.size < nb.cpus)
-        nb.cores <- OutputVector.size
-      else
-        nb.cores <- nb.cpus - 1
-      
-    }
+   
+    if(OutputVector.size < nbCores)
+      nbCores <- OutputVector.size
+    
     arg.grid <- matrix(0, OutputVector.size, 2)  
     arg.grid <- as.matrix(expand.grid(1:nbCluster.size, 1:listModels.size))
     colnames(arg.grid) <- NULL
@@ -71,7 +64,7 @@ VariableSelection<-
     ## si on est sous windows
     if(Sys.info()["sysname"] == "Windows")
     {
-      cl <- makeCluster(nb.cores)
+      cl <- makeCluster(nbCores)
       common.objects <- c("data", 
                           "OrderVariable", 
                           "nbCluster",
@@ -92,7 +85,7 @@ VariableSelection<-
     else
       junk <- mclapply(X = arg.grid.list, 
                        FUN = wrapper.selectVar,
-                       mc.cores = nb.cores,
+                       mc.cores = nbCores,
                        mc.silent = FALSE,
                        mc.preschedule = TRUE,
                        mc.cleanup = TRUE)

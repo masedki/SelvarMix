@@ -10,7 +10,8 @@ SelvarClustLasso <-
            criterion, 
            models,
            regModel,
-           indepModel)
+           indepModel,
+           nbCores)
   {
     
     # check data parameter
@@ -101,6 +102,19 @@ SelvarClustLasso <-
       stop(cat(indepModel[which(!(indepModel %in% c("LI","LB")))], "is not a valid indepModel name !\n"))
     }
     
+    # check nbCores 
+    nb.cpus <- detectCores(all.tests = FALSE, logical = FALSE)
+    if(missing(nbCores) && (nb.cpus > 1))
+      nbCores <- 2
+    if(missing(nbCores) && (nb.cpus == 1))
+      nbCores <- 1
+    if(!missing(nbCores))
+    {
+      if((nbCores < nb.cpus) && nb.cpus < 10)
+        nbCores <- nb.cpus
+      if((nbCores < nb.cpus) && nb.cpus >= 10)
+        nbCores <- nb.cpus - 2
+    }
     
     data <- as.matrix(data)
     n <- as.integer(nrow(data))
@@ -111,7 +125,7 @@ SelvarClustLasso <-
     print("............... start  variable  ranking .................................... ")
     supervised <- FALSE ## c'est une initialisation qui ne sert qu'à créer l'objet CritClust en c++
     knownlabels <- as.integer(1:n) ## une initilialisation qui ne sert qu'à créer l'objet CritClust en c++  (une autre solution à trouver !!!)
-    OrderVariable <- SortvarClust(dataStand, nbCluster, lambda, rho)
+    OrderVariable <- SortvarClust(dataStand, nbCluster, lambda, rho, nbCores)
     print("................. variable ranking .... done ................................ ")
     bestModel <- list()
     if(length(criterion)==1)
@@ -124,14 +138,16 @@ SelvarClustLasso <-
                                              OrderVariable,
                                              hybrid.size,
                                              supervised,
-                                             knownlabels)## ici les deux derniers arguements ne jouent qu'un rôle de création d'objet c++
+                                             knownlabels,
+                                             nbCores)## ici les deux derniers arguements ne jouent qu'un rôle de création d'objet c++
     
      if(criterion=="BIC"){
         print(" ..... model selection  with BIC criterion...... ")
         bestModel$BIC <- ModelSelectionClust(VariableSelectRes,
                                              data,
                                              regModel,
-                                             indepModel)
+                                             indepModel,
+                                             nbCores)
       }
       else
       {
@@ -139,7 +155,8 @@ SelvarClustLasso <-
         bestModel$ICL <- ModelSelectionClust(VariableSelectRes,
                                              data,
                                              regModel,
-                                             indepModel)
+                                             indepModel,
+                                             nbCores)
       }
     }
     else
@@ -154,10 +171,11 @@ SelvarClustLasso <-
                                                OrderVariable,
                                                hybrid.size,
                                                supervised,
-                                               knownlabels)
+                                               knownlabels,
+                                               nbCores)
         
         print(c(" ..... model selection  with ", crit, " criterion...... "))
-        cmd <- paste('bestModel$', crit, ' <- ModelSelectionClust(VariableSelectRes,data,regModel,indepModel)', sep ="")
+        cmd <- paste('bestModel$', crit, ' <- ModelSelectionClust(VariableSelectRes,data,regModel,indepModel,nbCores)', sep ="")
         eval(parse(text = cmd))
       }  
     }

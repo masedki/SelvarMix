@@ -4,7 +4,8 @@
 ModelSelectionClust <- function(VariableSelectRes,
                                 data,
                                 regModel,
-                                indepModel)
+                                indepModel,
+                                nbCores)
 {
   
   
@@ -29,23 +30,14 @@ ModelSelectionClust <- function(VariableSelectRes,
       return(res)
     }
     
-    nb.cpus <- detectCores(all.tests = FALSE, logical = FALSE)
-    nb.cores <- NA
-    if(nb.cpus == 1 || nb.cpus == 2)
-      nb.cores <- nb.cpus
-    else 
-    {
-      if(mylist.size < nb.cpus) 
-        nb.cores <- mylist.size
-      else
-        nb.cores <- nb.cpus - 1
-      
-    }
     
+    if(mylist.size < nbCores) 
+      nbCores <- mylist.size
+      
     ## si on est sous windows 
     if(Sys.info()["sysname"] == "Windows")
     {
-      cl <- makeCluster(nb.cores)
+      cl <- makeCluster(nbCores)
       common.objects <- c("data", "VariableSelectRes", "regModel", "indepModel")
       clusterExport(cl=cl, varlist = common.objects, envir = environment())
       junk <- clusterApply(cl, 
@@ -57,7 +49,7 @@ ModelSelectionClust <- function(VariableSelectRes,
     else
       junk <- mclapply(X = as.integer(1:mylist.size), 
                        FUN = wrapper.rcppCrit,
-                       mc.cores = nb.cores,
+                       mc.cores = nbCores,
                        mc.preschedule = TRUE,
                        mc.cleanup = TRUE)
   } 
