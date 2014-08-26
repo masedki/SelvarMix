@@ -118,17 +118,14 @@ SelvarLearnLasso <-
     
     # check nbCores 
     nb.cpus <- detectCores(all.tests = FALSE, logical = FALSE)
-    if(missing(nbCores) && (nb.cpus > 1))
-      nbCores <- 2
-    if(missing(nbCores) && (nb.cpus == 1))
-      nbCores <- 1
-    if(missing(nbCores) == FALSE)
+    if(missing(nbCores))
     {
-      if((nbCores < nb.cpus) && nb.cpus < 10)
-        nbCores <- nb.cpus
-      if((nbCores < nb.cpus) && nb.cpus >= 10)
-        nbCores <- nb.cpus - 2
+      if(nb.cpus > 1)
+        nbCores <- 2
+      if(nb.cpus == 1)
+        nbCores <- 1
     }
+    
     
     ## on est supervisé donc on initialiser supervised à TRUE.
     supervised <- TRUE

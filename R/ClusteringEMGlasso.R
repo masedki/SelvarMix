@@ -12,8 +12,7 @@ ClusteringEMGlasso <- function(data,
   
   if((length(lambda)*length(rho)) < nbCores)
     nbCores <- (length(lambda)*length(rho))
-  
-  
+  #print(c(" ... nbCores = ... ", nbCores))
   # si on est sous windows 
   if(Sys.info()["sysname"] == "Windows")
     cl <- makeCluster(nbCores)
