@@ -108,7 +108,8 @@ SelvarClustLasso <-
       nbCores <- 2
     if(missing(nbCores) && (nb.cpus == 1))
       nbCores <- 1
-    if(!missing(nbCores))
+    
+    if(missing(nbCores) == FALSE)
     {
       if((nbCores < nb.cpus) && nb.cpus < 10)
         nbCores <- nb.cpus

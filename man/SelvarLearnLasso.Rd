@@ -131,6 +131,7 @@ Mohammed Sedki <\url{mohammed.sedki@u-psud.fr}>
 
 ## Simulated data  example as shown in Sedki et al (2014)
 require(Rmixmod)
+require(glasso)
 data(scenarioCor)
 
 lambda <- seq(20,  50, length = 10)

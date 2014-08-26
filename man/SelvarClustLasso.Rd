@@ -111,6 +111,7 @@ Mohammed Sedki <\url{mohammed.sedki@u-psud.fr}>
 ## Simulated data  example as shown in Maugis et al. (2009) 
 ## n = 2000 observations, p = 14 variables 
 require(Rmixmod)
+require(glasso)
 data(scenarioCor)
 data.cor <- scenarioCor[,1:14]
 

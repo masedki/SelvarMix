@@ -74,7 +74,7 @@ Mohammed Sedki \email{mohammed.sedki@u-psud.fr}
 \examples{
 ## Simulated data  example as shown in Sedki et al (2014)
 ## n = 2000 observations, p = 14 variables 
-
+require(glasso)
 data(scenarioCor)
 data.cor <- scenarioCor[,1:14]
 labels.cor <-scenarioCor[,15]
@@ -85,7 +85,7 @@ rho <- seq(1, 2, length=2)
 
 
 ## variable ranking in discriminant analysis 
-var.ranking.learn <- SortvarLearn(data.cor, labels.cor, lambda, rho)
+var.ranking.da <- SortvarLearn(data.cor, labels.cor, lambda, rho)
 }
 \keyword{Variable ranking}
 \keyword{Penalized discriminant analysis}
