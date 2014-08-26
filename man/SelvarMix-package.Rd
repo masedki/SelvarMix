@@ -48,6 +48,7 @@
 ## Simulated data  example as shown in Maugis et al. (2009) (correlated scenario 2) 
 ## n = 2000 observations, p = 14 variables 
 require(Rmixmod)
+require(glasso)
 data(scenarioCor)
 data.cor <- scenarioCor[,1:14]
 labels.cor <-scenarioCor[,15]
@@ -63,8 +64,8 @@ indepModel <- c("LI","LB")
 ## variable selection in model-based clustering  
 nbCluster <-  c(3,4)
 criterion <- "BIC"
-simulate.clust  <- SelvarClustLasso(data.cor, nbCluster, lambda, rho, hybrid.size, criterion, models, 
-                                    regModel, indepModel)
+simulate.cl  <- SelvarClustLasso(data.cor, nbCluster, lambda, rho, hybrid.size, 
+                                 criterion, models, regModel, indepModel)
 
 
 
@@ -79,8 +80,8 @@ labels.test <-scenarioCor[1901:2000,15]
 
 lambda <- seq(20,  50, length = 10)
 
-simulate.da <- SelvarLearnLasso(data.learn, labels.learn, lambda, rho, hybrid.size, models, regModel, 
-                                indepModel, data.test, labels.test)
+simulate.da <- SelvarLearnLasso(data.learn, labels.learn, lambda, rho, hybrid.size, 
+                                models, regModel, indepModel, data.test, labels.test)
 }
 }
 \author{
