@@ -78,7 +78,7 @@ algorithms to select \eqn{S} and \eqn{W} sets
 }
 
 \item{nbCores}{
-number of CPUs to be used when parallel computing is utilized
+number of CPUs to be used when parallel computing is utilized (default is 2)
 }
 }
 
