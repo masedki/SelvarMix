@@ -128,7 +128,7 @@ Mohammed Sedki <\url{mohammed.sedki@u-psud.fr}>
 \link{scenarioCor}
 }
 \examples{
-
+\dontrun{
 ## Simulated data  example as shown in Sedki et al (2014)
 require(Rmixmod)
 require(glasso)
@@ -152,7 +152,5 @@ labels.test <-scenarioCor[1901:2000,15]
 
 simulate.da <- SelvarLearnLasso(data.learn, labels.learn, lambda, rho, hybrid.size, 
                                 models, regModel, indepModel, data.test, labels.test)
-
-
-
+}
 }

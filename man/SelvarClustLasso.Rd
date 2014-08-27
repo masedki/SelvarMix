@@ -108,6 +108,7 @@ Mohammed Sedki <\url{mohammed.sedki@u-psud.fr}>
 \link{scenarioCor}
 }
 \examples{
+\dontrun{
 ## Simulated data  example as shown in Maugis et al. (2009) 
 ## n = 2000 observations, p = 14 variables 
 require(Rmixmod)
@@ -128,4 +129,5 @@ indepModel <- c("LI","LB")
 simulate.cl <- SelvarClustLasso(data.cor, nbCluster, lambda, rho, hybrid.size, 
                                 criterion, models, regModel, indepModel)
  
+} 
 }

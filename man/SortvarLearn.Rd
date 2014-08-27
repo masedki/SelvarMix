@@ -72,6 +72,7 @@ Mohammed Sedki \email{mohammed.sedki@u-psud.fr}
 \link{SortvarClust}
 }
 \examples{
+\dontrun{
 ## Simulated data  example as shown in Sedki et al (2014)
 ## n = 2000 observations, p = 14 variables 
 require(glasso)
@@ -86,6 +87,7 @@ rho <- seq(1, 2, length=2)
 
 ## variable ranking in discriminant analysis 
 var.ranking.da <- SortvarLearn(data.cor, labels.cor, lambda, rho)
+}
 }
 \keyword{Variable ranking}
 \keyword{Penalized discriminant analysis}
