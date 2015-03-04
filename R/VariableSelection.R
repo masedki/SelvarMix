@@ -58,8 +58,8 @@ VariableSelection<-
     
     arg.grid <- matrix(0, OutputVector.size, 2)  
     arg.grid <- as.matrix(expand.grid(1:nbCluster.size, 1:listModels.size))
-    colnames(arg.grid) <- NULL
-    arg.grid.list <- list(); arg.grid.list <- as.list(data.frame(t(arg.grid)))
+    #colnames(arg.grid) <- NULL
+    #arg.grid.list <- list(); arg.grid.list <- as.list(data.frame(t(arg.grid)))
     
     ## si on est sous windows
     if(Sys.info()["sysname"] == "Windows")
@@ -72,18 +72,18 @@ VariableSelection<-
                           "hybrid.size", 
                           "criterion",
                           "supervised",
-                          "knownlabels",
-                          "mixmodCluster",
-                          "mixmodLearn")
+                          "knownlabels")
+      clusterEvalQ(cl, require(Rmixmod))
       clusterExport(cl=cl, varlist = common.objects, envir = environment())
-      junk <- parLapply(cl = cl,  
-                        X = arg.grid.list, 
-                        fun = wrapper.selectVar)
+      junk <- parApply(cl = cl,  
+                        X = arg.grid,
+                        MARGIN = 1,
+                        FUN = wrapper.selectVar)
       stopCluster(cl)
       
     }
     else
-      junk <- mclapply(X = arg.grid.list, 
+      junk <- mclapply(X = as.list(data.frame(t(arg.grid))),
                        FUN = wrapper.selectVar,
                        mc.cores = nbCores,
                        mc.silent = FALSE,
