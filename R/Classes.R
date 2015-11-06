@@ -6,35 +6,37 @@ setClass(
 
 setClass(
   Class = "SelvarMixstrategy", 
-  representation = representation(iterMH="numeric", nbSmall="numeric", iterSmall="numeric", nbKeep="numeric", iterKeep="numeric", tolKeep="numeric"), 
-  prototype = prototype(iterMH=numeric(), nbSmall=numeric(), iterSmall=numeric(), nbKeep=numeric(), iterKeep=numeric(), tolKeep=numeric())
+  representation = representation(lambda="numeric", rho="numeric", hSize="numeric", criterion="character", models="mixmodStrategy", regModel="character", indepModel="character", nbCores ="numeric"), 
+  prototype = prototype(lambda=numeric(), rho=numeric(), hSize=numeric(), criterion=character(), models=new("mixmodStrategy"), regModel=character(), indepModel=character(), nbCores = numeric())
 ) 
 
 ## Constructeur de la classe S4 SelvarMixstrategy
-SelvarMixstrategy <- function(iterMH, nbSmall, iterSmall, nbKeep, iterKeep, tolKeep){
-  if( nbKeep > nbSmall)
-    nbKeep <- nbSmall
-  new("SelvarMixstrategy", iterMH=iterMH, nbSmall=nbSmall, iterSmall=iterSmall, nbKeep=nbKeep, iterKeep=iterKeep, tolKeep=tolKeep)
+SelvarMixstrategy <- function(lambda, rho, hSize, criterion, models, regModel, indepModel, nbCores){
+  #if( nbKeep > nbSmall)
+  #  nbKeep <- nbSmall
+  new("SelvarMixstrategy", lambda=lambda, rho=rho, hSize=hSize, criterion=criterion, models=models, regModel=regModel, indepModel=indepModel, nbCores=nbCores)
 }
 
 
 setClass(
   Class = "SelvarMixmodel", 
-  representation = representation(g="numeric", omega="numeric"), 
-  prototype = prototype(g=numeric(), omega=numeric())
+  representation = representation(g="numeric", S="numeric", R="numeric", U="numeric", W="numeric"), 
+  prototype = prototype(g=numeric(), S=numeric(), R=numeric(), U=numeric(), W=numeric())
 )
 
-setClass(
-  Class = "ClustOrddetailsMH", 
-  representation = representation(Bestmodel="matrix", Currentmodel="matrix", Candidatemodel="matrix", allbic="matrix"), 
-  prototype = prototype(Bestmodel=matrix(), Bestmodel=matrix(), Bestmodel=matrix())
-)
+# setClass(
+#   Class = "ClustOrddetailsMH", 
+#   representation = representation(Bestmodel="matrix", Currentmodel="matrix", Candidatemodel="matrix", allbic="matrix"), 
+#   prototype = prototype(Bestmodel=matrix(), Bestmodel=matrix(), Bestmodel=matrix())
+# )
 
 
-setClass(Class = "SelvarMixriteria", 
+## voir comment recuperer les bonnes valeurs
+setClass(Class = "SelvarMixcriteria", 
          representation = representation(loglikelihood="numeric", BIC="numeric", ICL="numeric", nbparam="numeric"), 
          prototype = prototype(loglikelihood=numeric(), BIC=numeric(), ICL=numeric(), nbparam=numeric())
 )
+## voir comment recuperer tout les parametres
 
 setClass(
   Class = "SelvarMixparam", 
@@ -43,28 +45,33 @@ setClass(
 )
 
 
+## attention entre Clust et Learn
 setClass(
   Class = "SelvarMix", 
   representation = representation(
     n="numeric",
     d="numeric",
     data="matrix",
-    modalities="numeric"
-  ), 
+    knownlabels ="numeric",
+    dataTest="matrix",
+    labelsTest="numeric"
+    ), 
   prototype = prototype(
     n=numeric(),
     d=numeric(),
-    data=matrix(),
-    modalities=numeric()
+    data=matrix(), 
+    knownlabels=numeric(),
+    dataTest=matrix(),
+    labelsTest=numeric()
   )
 )
 
 setClass(
-  Class = "ClustOrdresults", 
-  representation = representation(data="ClustOrddata", criteria="ClustOrdcriteria", partitions="ClustOrdpartitions",
-                                  model="ClustOrdmodel", strategy="ClustOrdstrategy", param="ClustOrdparam", detailsMH="ClustOrddetailsMH"), 
-  prototype = prototype(data=new("ClustOrddata"), criteria=new("ClustOrdcriteria"), partitions=new("ClustOrdpartitions"),
-                        model=new("ClustOrdmodel"), strategy=new("ClustOrdstrategy"), param=new("ClustOrdparam"), detailsMH=new("ClustOrddetailsMH"))
+  Class = "SelvarMixresults", 
+  representation = representation(data="SelvarMixdata", criteria="SelvarMixcriteria", partitions="SelvarMixpartitions",
+                                  model="SelvarMixmodel", strategy="SelvarMixstrategy", param="SelvarMixparam"), 
+  prototype = prototype(data=new("SelvarMixdata"), criteria=new("SelvarMixcriteria"), partitions=new("SelvarMixpartitions"),
+                        model=new("SelvarMixmodel"), strategy=new("SelvarMixstrategy"), param=new("SelvarMixparam"))
 )
 
 BuildS4object <- function(x, g, iterMH, nbSmall, iterSmall, nbKeep, iterKeep, tolKeep){

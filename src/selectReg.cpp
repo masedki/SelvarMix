@@ -134,7 +134,7 @@ void SelectReg::inclusion_reg(vector<int> varSelect, vector<int>& varSelectReg, 
 
 
 //****************************************************************************//
-//*******************sélection dans la régression ****************************//
+//*******************selection dans la regression ****************************//
 //****************************************************************************//
 vector<int> SelectReg::selectReg(vector<int> varSelect,vector<int>& varNonSig, int& InitialProjectsNb)
 {
