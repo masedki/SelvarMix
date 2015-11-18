@@ -6,8 +6,8 @@ setClass(
 
 setClass(
   Class = "SelvarMixstrategy", 
-  representation = representation(lambda="numeric", rho="numeric", hSize="numeric", criterion="character", models="mixmodStrategy", regModel="character", indepModel="character", nbCores ="numeric"), 
-  prototype = prototype(lambda=numeric(), rho=numeric(), hSize=numeric(), criterion=character(), models=new("mixmodStrategy"), regModel=character(), indepModel=character(), nbCores = numeric())
+  representation = representation(lambda="numeric", rho="numeric", hSize="numeric", criterion="character", models="Strategy", regModel="character", indepModel="character", nbCores ="numeric"), 
+  prototype = prototype(lambda=numeric(), rho=numeric(), hSize=numeric(), criterion=character(), models=new("Strategy"), regModel=character(), indepModel=character(), nbCores = numeric())
 ) 
 
 ## Constructeur de la classe S4 SelvarMixstrategy
@@ -47,7 +47,7 @@ setClass(
 
 ## attention entre Clust et Learn
 setClass(
-  Class = "SelvarMix", 
+  Class = "SelvarMixdata", 
   representation = representation(
     n="numeric",
     d="numeric",
@@ -74,10 +74,20 @@ setClass(
                         model=new("SelvarMixmodel"), strategy=new("SelvarMixstrategy"), param=new("SelvarMixparam"))
 )
 
-BuildS4object <- function(x, g, iterMH, nbSmall, iterSmall, nbKeep, iterKeep, tolKeep){
-  data <- new("ClustOrddata", n=nrow(x), d=ncol(x), data=x, modalities=max(x)+1)
+BuildS4object <- function(data, nbCluster, lambda, rho, hybrid.size, criterion, models, regModel, indepModel, nbCores, learn){
+  
+  if(learn)
+  data <- new("SelvarMixdata", n=nrow(x), d=ncol(x), data=x, modalities=max(x)+1) n=nrow(x), d=ncol(x), data=x, knownlabels = NULL,
+  dataTest=NULL,
+  labelsTest=NULL)
+  else
+    data <- new("SelvarMixdata", n=nrow(x), d=ncol(x), data=x, modalities=max(x)+1) n=nrow(x), d=ncol(x), data=x, knownlabels = NULL,
+    dataTest=NULL,
+    labelsTest=NULL)
+  
+
   strategy <- ClustOrdstrategy(iterMH, nbSmall, iterSmall, nbKeep, iterKeep, tolKeep)
-  output <- new("ClustOrdresults", data=data, 
+  output <- new("SelvarMixresults", data=data, 
                 strategy=strategy, 
                 model=new("ClustOrdmodel", g=g, omega=Cleanmodel(sample(1:(ncol(x)), ncol(x), replace = T))[2,]-1),
                 criteria=new("ClustOrdcriteria", BIC=-Inf, ICL=-Inf, loglikelihood=-Inf, nbparam=0))
