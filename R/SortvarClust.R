@@ -1,8 +1,8 @@
-SortvarClust <- function(data,
-                         nbCluster,
+SortvarClust <- function(x,
+                         nbcluster,
                          lambda,
                          rho,
-                         nbCores)
+                         nbcores)
 {
   # check data parameter
   if(missing(data)){
