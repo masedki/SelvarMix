@@ -66,6 +66,7 @@ SortvarClust <- function(x,
   
   VarRole <- array(NA,dim=c((length(lambda)*length(rho)), p, length(nbCluster))) 
   VarRole <- ClusteringEMGlasso(data,nbCluster,lambda,rho, nbCores)
+ 
   ## Calcul de la matrice O de taille length(nCluster) * p
   Matrix0 <- matrix(0, nrow=length(nbCluster), ncol=p)
   for (k in 1:length(nbCluster))

@@ -20,8 +20,8 @@ SelvarMixstrategy <- function(lambda, rho, hsize, criterion, models, rmodel, imo
 
 setClass(
   Class = "SelvarMixmodel", 
-  representation = representation(g="integer", S="numeric", R="numeric", U="numeric", W="numeric", m="character", l="character", r="character"), 
-  prototype = prototype(g=integer(), S=numeric(), R=numeric(), U=numeric(), W=numeric(), m=character(), l=character(), r=character())
+  representation = representation(g="integer", rank= "matrix",S="numeric", R="numeric", U="numeric", W="numeric", m="character", l="character", r="character"), 
+  prototype = prototype(g=integer(), rank = matrix(),S=numeric(), R=numeric(), U=numeric(), W=numeric(), m=character(), l=character(), r=character())
 )
 
 # setClass(
@@ -78,7 +78,7 @@ BuildS4object1 <- function(x,
 {
   
   if(!learn)
-  data <- new("SelvarMixdata", n=nrow(x), d=ncol(x), x=x, z = NULL, xt=NULL, zt=NULL)
+  data <- new("SelvarMixdata", n=nrow(x), d=ncol(x), x=x, z = 1:nrow(x), xt=NULL, zt=NULL)
   else
   data <- new("SelvarMixdata", n=nrow(x), d=ncol(x), x=x, z = z, xt=xt, zt=zt)
   
@@ -89,6 +89,7 @@ BuildS4object1 <- function(x,
                 strategy=strategy, 
                 model=new("SelvarMixmodel", 
                           g=nbcluster, 
+                          rank = matrix(0,0,0),
                           S=sample(1:(ncol(x)), ncol(x), rep=T), 
                           R=sample(1:(ncol(x)), ncol(x), rep=T), 
                           U=sample(1:(ncol(x)), ncol(x), rep=T), 

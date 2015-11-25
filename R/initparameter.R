@@ -1,8 +1,7 @@
-InitParameter <- 
-  function(data, 
-           nbClust, 
-           n.start = 250, 
-           small.pen = 0.5)
+initparameter <- function(data, 
+                          nbClust, 
+                          n.start = 250, 
+                          small.pen = 0.5)
   { 
     data <- as.matrix(scale(data, TRUE, FALSE))
     n <- as.integer(dim(data)[1])

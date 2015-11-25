@@ -220,7 +220,7 @@ int Mixture::GetNbClust(void)
 
 
 //[[Rcpp::export]]
-IntegerVector rcppClusteringEMGlasso(List InputList, double l, double r){
+IntegerVector rcppclustemglasso(List InputList, double l, double r){
     /******************************************************/
     /************ Les étapes EM pénalisé ******************/
     /******************************************************/
