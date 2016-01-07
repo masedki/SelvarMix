@@ -6,16 +6,16 @@
 
 using namespace Rcpp;
 
-// rcppClusteringEMGlasso
-IntegerVector rcppClusteringEMGlasso(List InputList, double l, double r);
-RcppExport SEXP SelvarMix_rcppClusteringEMGlasso(SEXP InputListSEXP, SEXP lSEXP, SEXP rSEXP) {
+// rcppclustemglasso
+IntegerVector rcppclustemglasso(List InputList, double l, double r);
+RcppExport SEXP SelvarMix_rcppclustemglasso(SEXP InputListSEXP, SEXP lSEXP, SEXP rSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< List >::type InputList(InputListSEXP);
     Rcpp::traits::input_parameter< double >::type l(lSEXP);
     Rcpp::traits::input_parameter< double >::type r(rSEXP);
-    __result = Rcpp::wrap(rcppClusteringEMGlasso(InputList, l, r));
+    __result = Rcpp::wrap(rcppclustemglasso(InputList, l, r));
     return __result;
 END_RCPP
 }

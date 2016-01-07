@@ -1,6 +1,6 @@
 useDynLib(SelvarMix)
 #exportPattern("^[[:alpha:]]+")
-export(SelvarClustLasso, SelvarLearnLasso, SortvarClust, SortvarLearn)
+export(selvarlasso, SelvarLearnLasso, SortvarClust, SortvarLearn)
 importFrom("Rcpp", evalCpp)
 importFrom("glasso", glasso)
 importFrom("Rmixmod", mixmodCluster, mixmodLearn, mixmodGaussianModel, mixmodPredict, is.wholenumber)

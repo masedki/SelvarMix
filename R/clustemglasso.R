@@ -46,7 +46,7 @@ clustemglasso <- function(reference)
   pengrid <- matrix(0,0,0)
   pengrid <- as.matrix(expand.grid(reference@strategy@lambda, reference@strategy@rho))
    
-  varrole <- array(0,dim=c((length(reference@strategy@lambda)*length(reference@strategy@rho)), reference@data@p, length(reference@model@g)))
+  varrole <- array(0,dim=c((length(reference@strategy@lambda)*length(reference@strategy@rho)), reference@data@d, length(reference@model@g)))
   parallelvarrole <- list()
   if(length(reference@model@g)==1)
   {
@@ -96,18 +96,18 @@ clustemglasso <- function(reference)
     stopCluster(cl)
   for(k in 1:length(reference@model@g))
   {
-    varrole <- matrix(NA,(length(reference@strategy@lambda)*length(reference@strategy@rho)), reference@data@p)
+    varrole <- matrix(NA,(length(reference@strategy@lambda)*length(reference@strategy@rho)), reference@data@d)
     for(j in 1:nrow(varrole))
       if(class(parallelvarrole[[k]][[j]])!="try-error")
         varrole[j,] <- parallelvarrole[[k]][[j]]   
       
       varrole[,,k] <- varrole
   }
-  matrix0 <- matrix(0, nrow=length(reference@model@g), ncol=reference@data@p)
+  matrix0 <- matrix(0, nrow=length(reference@model@g), ncol=reference@data@d)
   for(k in 1:length(reference@model@g))
     matrix0[k,]<- colSums(varrole[,,k])    
   
-  ordervar <- matrix(NA, nrow=length(reference@model@g),ncol=reference@data@p)
+  ordervar <- matrix(NA, nrow=length(reference@model@g),ncol=reference@data@d)
   for(k in 1:length(reference@model@g))
     ordervar[k,] <- sort.int(matrix0[k,],decreasing=TRUE,index.return=TRUE)$ix
   reference@model@rank <- ordervar

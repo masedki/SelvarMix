@@ -1,4 +1,4 @@
-modelsel <- function(varselres, reference)
+modelsel <- function(varselres, criterion,reference)
 {
   outputsize <- length(varselres)
   if(outputsize==1)
@@ -41,18 +41,27 @@ modelsel <- function(varselres, reference)
     }
   }
   
+  if(criterion == "BIC")
+    reference@criteria@BIC <- bestModel$criterionValue
+  else
+    reference@criteria@ICL <- bestModel$criterionValue
+  
+  reference@model@g <-  bestModel$nbCluster
+  reference@model@S <-  bestModel$S
+  reference@partition@zMAP <- bestModel$partition
+  reference@tik <- bestModel$proba
   
   if(length(bestModel$R) == 0)
   {
-    bestModel$R <- NULL
-    bestModel$W <- c(bestModel$U, bestModel$W)
-    bestModel$U <- NULL
+    reference@output@model@R <- NULL
+    reference@output@model@W <- c(bestModel$U, bestModel$W)
+    reference@output@model@U <- NULL
   }
   
   if(length(bestModel$W)==0)
-    bestModel$W <- NULL
+    reference@output@model@W <- NULL
   
   
   
-  return(bestModel)
+  return(reference)
 }

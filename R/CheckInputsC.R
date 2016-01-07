@@ -4,7 +4,7 @@ CheckInputsC <- function(x, nbcluster, lambda, rho, hsize, criterion, models, rm
   if(missing(x))
      stop("x is missing!")
        
-   if(is.matrix(x) == FALSE && is.x.frame(x) == FALSE)
+   if(is.matrix(x) == FALSE && is.data.frame(x) == FALSE)
       stop(paste(sQuote("x"), "must be a matrix!"))
        
    if(missing(nbcluster))

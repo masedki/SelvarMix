@@ -6,8 +6,8 @@ setClass(
 
 setClass(
   Class = "SelvarMixstrategy", 
-  representation = representation(lambda="numeric", rho="numeric", hsize="numeric", criterion="character", models="Strategy", regModel="character", indepModel="character", nbCores ="numeric"), 
-  prototype = prototype(lambda=numeric(), rho=numeric(), hsize=numeric(), criterion=character(), models=new("Strategy"), regModel=character(), indepModel=character(), nbCores = numeric())
+  representation = representation(lambda="numeric", rho="numeric", hsize="numeric", criterion="character", models="GaussianModel", rmodel="character", imodel="character", nbcores ="numeric"), 
+  prototype = prototype(lambda=numeric(), rho=numeric(), hsize=numeric(), criterion=character(), models=new("GaussianModel"), rmodel=character(), imodel=character(), nbcores = numeric())
 ) 
 
 ## Constructeur de la classe S4 SelvarMixstrategy
@@ -54,9 +54,9 @@ setClass(
 
 setClass(
   Class = "SelvarMixresults", 
-  representation = representation(data="SelvarMixdata", criteria="SelvarMixcriteria", partitions="SelvarMixpartitions",
+  representation = representation(data="SelvarMixdata", criteria="SelvarMixcriteria", partition="SelvarMixpartitions",
                                   model="SelvarMixmodel", strategy="SelvarMixstrategy", param="SelvarMixparam"), 
-  prototype = prototype(data=new("SelvarMixdata"), criteria=new("SelvarMixcriteria"), partitions=new("SelvarMixpartitions"),
+  prototype = prototype(data=new("SelvarMixdata"), criteria=new("SelvarMixcriteria"), partition=new("SelvarMixpartitions"),
                         model=new("SelvarMixmodel"), strategy=new("SelvarMixstrategy"), param=new("SelvarMixparam"))
 )
 
@@ -71,32 +71,33 @@ BuildS4object1 <- function(x,
                           imodel, 
                           nbcores, 
                           learn=FALSE,
-                          z=NULL,
-                          xt=NULL,
-                          zt=NULL
+                          z=numeric(),
+                          xt=matrix(0,0,0),
+                          zt=numeric()
                           )
 {
   
   if(!learn)
-  data <- new("SelvarMixdata", n=nrow(x), d=ncol(x), x=x, z = 1:nrow(x), xt=NULL, zt=NULL)
+  data <- new("SelvarMixdata", n=nrow(x), d=ncol(x), x=x, z = 1:nrow(x), xt=matrix(0,0,0), zt=numeric())
   else
   data <- new("SelvarMixdata", n=nrow(x), d=ncol(x), x=x, z = z, xt=xt, zt=zt)
   
   strategy <- SelvarMixstrategy(lambda, rho, hsize, criterion, models, rmodel, imodel, nbcores)
   output <- new("SelvarMixresults", 
                 data=data, 
+                partition = new("SelvarMixpartitions", zMAP = numeric(), tik = matrix(0,0,0)),
                 criteria=new("SelvarMixcriteria", loglikelihood=-Inf, BIC=-Inf, ICL=-Inf, nbparam=0),
                 strategy=strategy, 
                 model=new("SelvarMixmodel", 
-                          g=nbcluster, 
+                          g=as.integer(nbcluster), 
                           rank = matrix(0,0,0),
                           S=sample(1:(ncol(x)), ncol(x), rep=T), 
                           R=sample(1:(ncol(x)), ncol(x), rep=T), 
                           U=sample(1:(ncol(x)), ncol(x), rep=T), 
                           W=sample(1:(ncol(x)), ncol(x), rep=T),
-                          m="NA", 
-                          l="NA", 
-                          r="NA"))
+                          m=character(), 
+                          l=character(), 
+                          r=character()))
   return(output)
 }
 BuildS4object2 <- function(x,
