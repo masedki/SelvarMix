@@ -14,7 +14,7 @@ setClass(
 SelvarMixstrategy <- function(lambda, rho, hsize, criterion, models, rmodel, imodel, nbcores){
   #if( nbKeep > nbSmall)
   #  nbKeep <- nbSmall
-  new("SelvarMixstrategy", lambda=lambda, rho=rho, hsize=hsize, criterion=criterion, models=models, rmodel=regModel, imodel=imodel, nbcores=nbcores)
+  new("SelvarMixstrategy", lambda=lambda, rho=rho, hsize=hsize, criterion=criterion, models=models, rmodel=rmodel, imodel=imodel, nbcores=nbcores)
 }
 
 
