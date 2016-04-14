@@ -37,9 +37,14 @@ CheckInputsC <- function(x, nbcluster, lambda, rho, hsize, criterion, models, rm
    if(!is.wholenumber(hsize) | sum(hsize < 1) | hsize > ncol(x)) 
       stop(paste(sQuote("hsize"), "must be a positive integer <= ncol(x)!"))
        
-   if(sum(criterion %in% c("BIC","ICL")) != length(criterion))
-      stop(cat(criterion[which(!(criterion %in% c("BIC","ICL")))], "is not a valid criterion name !\n"))
-       
+   #if(sum(criterion %in% c("BIC","ICL")) != length(criterion))
+    #  stop(cat(criterion[which(!(criterion %in% c("BIC","ICL")))], "is not a valid criterion name !\n"))
+  if(missing(criterion))
+    criterion <- "BIC"
+  
+  if(!(criterion %in% c("BIC","ICL")) || (length(criterion)!= 1)) 
+    stop(cat(criterion, "is not a valid criterion name, must be BIC or ICL !\n"))
+  
    if(!(isS4(models) && is(models, "GaussianModel")))
       stop("models must be a GaussianModel S4 object! (see Rmixmod package)")
        

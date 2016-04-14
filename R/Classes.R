@@ -24,13 +24,6 @@ setClass(
   prototype = prototype(g=integer(), rank = matrix(),S=numeric(), R=numeric(), U=numeric(), W=numeric(), m=character(), l=character(), r=character())
 )
 
-# setClass(
-#   Class = "ClustOrddetailsMH", 
-#   representation = representation(Bestmodel="matrix", Currentmodel="matrix", Candidatemodel="matrix", allbic="matrix"), 
-#   prototype = prototype(Bestmodel=matrix(), Bestmodel=matrix(), Bestmodel=matrix())
-# )
-
-
 ## voir comment recuperer les bonnes valeurs
 setClass(Class = "SelvarMixcriteria", 
          representation = representation(loglikelihood="numeric", BIC="numeric", ICL="numeric", nbparam="numeric"), 
@@ -78,11 +71,14 @@ BuildS4object1 <- function(x,
 {
   
   if(!learn)
-  data <- new("SelvarMixdata", n=nrow(x), d=ncol(x), x=x, z = 1:nrow(x), xt=matrix(0,0,0), zt=numeric())
+  {
+  data <- new("SelvarMixdata", n=nrow(x), d=ncol(x), x=as.matrix(x), z = 1:nrow(x), xt=matrix(0,0,0), zt=numeric())
+  strategy <- new("SelvarMixstrategy", lambda=lambda, rho=rho, hsize=hsize, criterion=criterion, models=models, rmodel=rmodel, imodel=imodel, nbcores=nbcores)
+  }
   else
   data <- new("SelvarMixdata", n=nrow(x), d=ncol(x), x=x, z = z, xt=xt, zt=zt)
   
-  strategy <- SelvarMixstrategy(lambda, rho, hsize, criterion, models, rmodel, imodel, nbcores)
+  #strategy <- SelvarMixstrategy(lambda, rho, hsize, criterion, models, rmodel, imodel, nbcores)
   output <- new("SelvarMixresults", 
                 data=data, 
                 partition = new("SelvarMixpartitions", zMAP = numeric(), tik = matrix(0,0,0)),

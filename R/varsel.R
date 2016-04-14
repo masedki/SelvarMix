@@ -65,7 +65,7 @@ varsel<-function(reference, criterion="BIC",learn=FALSE)
     nbfails <- 0 
     for(idx in 1:outputsize)
       if(class(junk[[idx]]) == "try-error")
-        nb.fails <- nb.fails + 1
+        nbfails <- nbfails + 1
     
     ##Préparer le stockage
     varselres <-  vector(length = (outputsize - nbfails), mode ="list")
