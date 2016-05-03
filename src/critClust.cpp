@@ -42,6 +42,7 @@ List CritClust::ClustBestModel(vector<int> numExp)
     Named("strategy") = mixmodstrategy,
     Named("criterion") = crit);
     S4 bestResult = xem.slot("bestResult");
+    //cout << "criterionValue" <<as<double>(bestResult.slot("criterionValue")) << endl;
     return List::create(Named("criterionValue") = -as<double>(bestResult.slot("criterionValue")),
     Named("criterion") = bestResult.slot("criterion"),
     Named("nbCluster") = bestResult.slot("nbCluster"),

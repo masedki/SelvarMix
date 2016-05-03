@@ -24,8 +24,7 @@ modelsel <- function(varselres, criterion,reference)
     else
       junk <- mclapply(X = 1:outputsize, FUN = wrapperrcppcrit, mc.cores = reference@strategy@nbcores, mc.preschedule = TRUE, mc.cleanup = TRUE)
   } 
-  
-  
+  bestModel <- list()
   if((outputsize==1) && (class(junk) != "try-error"))
     bestModel <- junk
   else
@@ -33,13 +32,16 @@ modelsel <- function(varselres, criterion,reference)
     lmax <- -Inf
     for(idx in 1:outputsize)
     {
+      #print(junk[[idx]])
       if((class(junk[[idx]]) != "try-error")  && (junk[[idx]]$criterionValue > lmax))
       {
         bestModel <- junk[[idx]]
-        lmax <- bestModel$criterionValue 
+        lmax <- bestModel$criterionValue
+        print(c("bestModel$criterionValue = ...", bestModel$criterionValue))
       }
     }
   }
+  
   
   if(criterion == "BIC")
     reference@criteria@BIC <- bestModel$criterionValue

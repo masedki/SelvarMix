@@ -41,8 +41,8 @@ setClass(
 ## attention entre Clust et Learn
 setClass(
   Class = "SelvarMixdata", 
-  representation = representation(n="numeric", d="numeric", x="matrix", z ="numeric", xt="matrix", zt="numeric"), 
-  prototype = prototype(n=numeric(), d=numeric(), x=matrix(), z=numeric(), xt=matrix(), zt=numeric())
+  representation = representation(n="numeric", p="numeric", x="matrix", z ="numeric", xt="matrix", zt="numeric"), 
+  prototype = prototype(n=numeric(), p=numeric(), x=matrix(), z=numeric(), xt=matrix(), zt=numeric())
 )
 
 setClass(
@@ -72,7 +72,7 @@ BuildS4object1 <- function(x,
   
   if(!learn)
   {
-  data <- new("SelvarMixdata", n=nrow(x), d=ncol(x), x=as.matrix(x), z = 1:nrow(x), xt=matrix(0,0,0), zt=numeric())
+  data <- new("SelvarMixdata", n=nrow(x), p=ncol(x), x=as.matrix(x), z = 1:nrow(x), xt=matrix(0,0,0), zt=numeric())
   strategy <- new("SelvarMixstrategy", lambda=lambda, rho=rho, hsize=hsize, criterion=criterion, models=models, rmodel=rmodel, imodel=imodel, nbcores=nbcores)
   }
   else
@@ -107,9 +107,9 @@ BuildS4object2 <- function(x,
 {
   
   if(!learn)
-    data <- new("SelvarMixdata", n=nrow(x), d=ncol(x), x=x)
+    data <- new("SelvarMixdata", n=nrow(x), p=ncol(x), x=as.matrix(x))
   else
-    data <- new("SelvarMixdata", n=nrow(x), d=ncol(x), x=x, z = z)
+    data <- new("SelvarMixdata", n=nrow(x), p=ncol(x), x=as.matrix(x), z = z)
   
   strategy <- new("SelvarMixstrategy", lambda=lambda, rho=rho, nbcores=nbcores)
   output <- new("SelvarMixresults", 

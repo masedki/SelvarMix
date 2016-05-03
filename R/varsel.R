@@ -19,7 +19,6 @@ varsel<-function(reference, criterion="BIC",learn=FALSE)
                              criterion,
                              reference@data@z,
                              learn)
-      
       ResSelectVar <- list()
       ResSelectVar$S <- mylist$S
       ResSelectVar$g <- mylist$nbCluster
@@ -66,7 +65,7 @@ varsel<-function(reference, criterion="BIC",learn=FALSE)
     for(idx in 1:outputsize)
       if(class(junk[[idx]]) == "try-error")
         nbfails <- nbfails + 1
-    
+   
     ##Préparer le stockage
     varselres <-  vector(length = (outputsize - nbfails), mode ="list")
     
@@ -74,10 +73,12 @@ varsel<-function(reference, criterion="BIC",learn=FALSE)
     for(ll in 1:outputsize)
       if(class(junk[[ll]])!="try-error")
       {
+
         varselres[[idx]]$S <- sort(junk[[ll]][["S"]])
         varselres[[idx]]$W <- sort(junk[[ll]][["W"]])
         varselres[[idx]]$U <- setdiff(1:reference@data@p, union(junk[[ll]][["S"]], junk[[ll]][["W"]]))
         varselres[[idx]]$criterionValue <- junk[[ll]][["criterionValue"]]
+        #print(c("criterionValue = ", junk[[ll]][["crtierionValue"]]))
         varselres[[idx]]$criterion <- junk[[ll]][["criterion"]] 
         varselres[[idx]]$model <- junk[[ll]][["model"]]
         varselres[[idx]]$nbCluster <- junk[[ll]][["nbCluster"]]
